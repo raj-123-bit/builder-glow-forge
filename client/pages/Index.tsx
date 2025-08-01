@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -7,20 +8,22 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { 
-  Brain, 
-  Zap, 
-  Target, 
-  BarChart3, 
-  Settings, 
-  Play, 
-  Pause, 
+import {
+  Brain,
+  Zap,
+  Target,
+  BarChart3,
+  Settings,
+  Play,
+  Pause,
   RotateCcw,
   GitBranch,
   Activity,
   Clock,
   Cpu,
-  Database
+  Database,
+  FlaskConical,
+  Menu
 } from "lucide-react";
 
 interface Architecture {
@@ -100,7 +103,15 @@ export default function Index() {
                 <p className="text-sm text-muted-foreground">AI-Powered Architecture Discovery</p>
               </div>
             </div>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-4">
+              <nav className="hidden md:flex items-center gap-6">
+                <Link to="/experiments" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                  Experiments
+                </Link>
+                <Link to="/datasets" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                  Datasets
+                </Link>
+              </nav>
               <Badge variant="secondary" className="bg-primary/20 text-primary">
                 <Activity className="h-3 w-3 mr-1" />
                 Beta v2.1
@@ -272,9 +283,11 @@ export default function Index() {
                               </div>
                             </div>
                           </div>
-                          <Button variant="outline" size="sm">
-                            View Details
-                          </Button>
+                          <Link to={`/architecture/${arch.id}`}>
+                            <Button variant="outline" size="sm">
+                              View Details
+                            </Button>
+                          </Link>
                         </div>
 
                         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
