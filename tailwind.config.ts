@@ -3,13 +3,13 @@ import type { Config } from "tailwindcss";
 export default {
   darkMode: ["class"],
   safelist: [
-    'from-purple-600',
-    'to-blue-600',
-    'from-blue-600',
-    'to-cyan-600',
-    'text-purple-400',
-    'text-blue-400',
-    'text-cyan-400'
+    "from-purple-600",
+    "to-blue-600",
+    "from-blue-600",
+    "to-cyan-600",
+    "text-purple-400",
+    "text-blue-400",
+    "text-cyan-400",
   ],
   content: ["./client/**/*.{ts,tsx}"],
   prefix: "",

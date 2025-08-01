@@ -25,7 +25,9 @@ const NotFound = () => {
             </div>
             <div>
               <h1 className="text-xl font-bold">NeuralArchSearch</h1>
-              <p className="text-sm text-muted-foreground">AI-Powered Architecture Discovery</p>
+              <p className="text-sm text-muted-foreground">
+                AI-Powered Architecture Discovery
+              </p>
             </div>
           </div>
         </div>
@@ -39,9 +41,12 @@ const NotFound = () => {
               <div className="mx-auto mb-4 p-4 bg-destructive/20 rounded-full w-fit">
                 <AlertTriangle className="h-12 w-12 text-destructive" />
               </div>
-              <CardTitle className="text-3xl mb-2">404 - Page Not Found</CardTitle>
+              <CardTitle className="text-3xl mb-2">
+                404 - Page Not Found
+              </CardTitle>
               <p className="text-muted-foreground text-lg">
-                The neural pathway you're looking for doesn't exist in our architecture.
+                The neural pathway you're looking for doesn't exist in our
+                architecture.
               </p>
             </CardHeader>
             <CardContent className="space-y-6">
@@ -50,7 +55,7 @@ const NotFound = () => {
                   <strong>Requested path:</strong> {location.pathname}
                 </p>
               </div>
-              
+
               <div className="flex gap-3 justify-center">
                 <Link to="/">
                   <Button variant="outline">
@@ -59,9 +64,7 @@ const NotFound = () => {
                   </Button>
                 </Link>
                 <Link to="/">
-                  <Button>
-                    Start Architecture Search
-                  </Button>
+                  <Button>Start Architecture Search</Button>
                 </Link>
               </div>
             </CardContent>

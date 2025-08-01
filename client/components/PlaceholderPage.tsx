@@ -9,10 +9,10 @@ interface PlaceholderPageProps {
   icon?: React.ReactNode;
 }
 
-export default function PlaceholderPage({ 
-  title, 
-  description, 
-  icon = <Brain className="h-12 w-12 text-primary" /> 
+export default function PlaceholderPage({
+  title,
+  description,
+  icon = <Brain className="h-12 w-12 text-primary" />,
 }: PlaceholderPageProps) {
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -32,7 +32,9 @@ export default function PlaceholderPage({
               </div>
               <div>
                 <h1 className="text-xl font-bold">NeuralArchSearch</h1>
-                <p className="text-sm text-muted-foreground">AI-Powered Architecture Discovery</p>
+                <p className="text-sm text-muted-foreground">
+                  AI-Powered Architecture Discovery
+                </p>
               </div>
             </div>
           </div>
@@ -57,11 +59,12 @@ export default function PlaceholderPage({
                   <span className="font-medium">Continue the Conversation</span>
                 </div>
                 <p className="text-sm text-muted-foreground">
-                  This page is ready to be built! Continue prompting to add specific 
-                  functionality and content to this section of the application.
+                  This page is ready to be built! Continue prompting to add
+                  specific functionality and content to this section of the
+                  application.
                 </p>
               </div>
-              
+
               <div className="flex gap-3 justify-center">
                 <Link to="/">
                   <Button variant="outline">
@@ -69,9 +72,7 @@ export default function PlaceholderPage({
                     Back to Home
                   </Button>
                 </Link>
-                <Button>
-                  Start Building This Page
-                </Button>
+                <Button>Start Building This Page</Button>
               </div>
             </CardContent>
           </Card>

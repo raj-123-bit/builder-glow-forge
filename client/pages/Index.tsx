@@ -5,7 +5,13 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
@@ -23,7 +29,7 @@ import {
   Cpu,
   Database,
   FlaskConical,
-  Menu
+  Menu,
 } from "lucide-react";
 
 interface Architecture {
@@ -44,16 +50,16 @@ const mockArchitectures: Architecture[] = [
     params: "66M",
     flops: "37.1G",
     latency: 14.2,
-    score: 87.3
+    score: 87.3,
   },
   {
-    id: "2", 
+    id: "2",
     name: "ResNet-152",
     accuracy: 93.2,
     params: "60M",
     flops: "11.6G",
     latency: 8.1,
-    score: 85.1
+    score: 85.1,
   },
   {
     id: "3",
@@ -62,8 +68,8 @@ const mockArchitectures: Architecture[] = [
     params: "5.4M",
     flops: "219M",
     latency: 2.3,
-    score: 92.4
-  }
+    score: 92.4,
+  },
 ];
 
 export default function Index() {
@@ -75,9 +81,9 @@ export default function Index() {
   const startSearch = () => {
     setIsSearching(true);
     setSearchProgress(0);
-    
+
     const interval = setInterval(() => {
-      setSearchProgress(prev => {
+      setSearchProgress((prev) => {
         if (prev >= 100) {
           clearInterval(interval);
           setIsSearching(false);
@@ -100,15 +106,23 @@ export default function Index() {
               </div>
               <div>
                 <h1 className="text-xl font-bold">NeuralArchSearch</h1>
-                <p className="text-sm text-muted-foreground">AI-Powered Architecture Discovery</p>
+                <p className="text-sm text-muted-foreground">
+                  AI-Powered Architecture Discovery
+                </p>
               </div>
             </div>
             <div className="flex items-center gap-4">
               <nav className="hidden md:flex items-center gap-6">
-                <Link to="/experiments" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                <Link
+                  to="/experiments"
+                  className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                >
                   Experiments
                 </Link>
-                <Link to="/datasets" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                <Link
+                  to="/datasets"
+                  className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                >
                   Datasets
                 </Link>
               </nav>
@@ -136,7 +150,10 @@ export default function Index() {
               <CardContent className="space-y-6">
                 <div className="space-y-2">
                   <Label htmlFor="dataset">Target Dataset</Label>
-                  <Select value={selectedDataset} onValueChange={setSelectedDataset}>
+                  <Select
+                    value={selectedDataset}
+                    onValueChange={setSelectedDataset}
+                  >
                     <SelectTrigger>
                       <SelectValue />
                     </SelectTrigger>
@@ -151,15 +168,24 @@ export default function Index() {
 
                 <div className="space-y-2">
                   <Label htmlFor="strategy">Search Strategy</Label>
-                  <Select value={searchStrategy} onValueChange={setSearchStrategy}>
+                  <Select
+                    value={searchStrategy}
+                    onValueChange={setSearchStrategy}
+                  >
                     <SelectTrigger>
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="evolutionary">Evolutionary Search</SelectItem>
-                      <SelectItem value="reinforcement">Reinforcement Learning</SelectItem>
+                      <SelectItem value="evolutionary">
+                        Evolutionary Search
+                      </SelectItem>
+                      <SelectItem value="reinforcement">
+                        Reinforcement Learning
+                      </SelectItem>
                       <SelectItem value="gradient">Gradient-based</SelectItem>
-                      <SelectItem value="bayesian">Bayesian Optimization</SelectItem>
+                      <SelectItem value="bayesian">
+                        Bayesian Optimization
+                      </SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
@@ -176,8 +202,8 @@ export default function Index() {
                 </div>
 
                 <div className="flex gap-2">
-                  <Button 
-                    onClick={startSearch} 
+                  <Button
+                    onClick={startSearch}
                     disabled={isSearching}
                     className="flex-1"
                   >
@@ -222,24 +248,34 @@ export default function Index() {
                 <div className="grid grid-cols-2 gap-4">
                   <div className="text-center p-3 bg-muted/50 rounded-lg">
                     <div className="text-2xl font-bold text-primary">247</div>
-                    <div className="text-sm text-muted-foreground">Architectures Tested</div>
+                    <div className="text-sm text-muted-foreground">
+                      Architectures Tested
+                    </div>
                   </div>
                   <div className="text-center p-3 bg-muted/50 rounded-lg">
                     <div className="text-2xl font-bold text-primary">94.8%</div>
-                    <div className="text-sm text-muted-foreground">Best Accuracy</div>
+                    <div className="text-sm text-muted-foreground">
+                      Best Accuracy
+                    </div>
                   </div>
                 </div>
                 <div className="space-y-2">
                   <div className="flex justify-between">
-                    <span className="text-sm text-muted-foreground">Search Time</span>
+                    <span className="text-sm text-muted-foreground">
+                      Search Time
+                    </span>
                     <span className="text-sm">2h 14m</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-sm text-muted-foreground">GPU Hours</span>
+                    <span className="text-sm text-muted-foreground">
+                      GPU Hours
+                    </span>
                     <span className="text-sm">8.7h</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-sm text-muted-foreground">Convergence</span>
+                    <span className="text-sm text-muted-foreground">
+                      Convergence
+                    </span>
                     <span className="text-sm text-primary">Stable</span>
                   </div>
                 </div>
@@ -266,7 +302,10 @@ export default function Index() {
 
                 <div className="space-y-4">
                   {mockArchitectures.map((arch, index) => (
-                    <Card key={arch.id} className="border-border bg-card/50 hover:bg-card/80 transition-colors">
+                    <Card
+                      key={arch.id}
+                      className="border-border bg-card/50 hover:bg-card/80 transition-colors"
+                    >
                       <CardContent className="p-6">
                         <div className="flex items-center justify-between mb-4">
                           <div className="flex items-center gap-3">
@@ -277,7 +316,10 @@ export default function Index() {
                               <h4 className="font-semibold">{arch.name}</h4>
                               <div className="flex items-center gap-2 text-sm text-muted-foreground">
                                 <span>Rank #{index + 1}</span>
-                                <Badge variant="secondary" className="bg-primary/20 text-primary">
+                                <Badge
+                                  variant="secondary"
+                                  className="bg-primary/20 text-primary"
+                                >
                                   Score: {arch.score}
                                 </Badge>
                               </div>
@@ -294,29 +336,45 @@ export default function Index() {
                           <div className="flex items-center gap-2">
                             <Target className="h-4 w-4 text-muted-foreground" />
                             <div>
-                              <div className="text-sm font-medium">{arch.accuracy}%</div>
-                              <div className="text-xs text-muted-foreground">Accuracy</div>
+                              <div className="text-sm font-medium">
+                                {arch.accuracy}%
+                              </div>
+                              <div className="text-xs text-muted-foreground">
+                                Accuracy
+                              </div>
                             </div>
                           </div>
                           <div className="flex items-center gap-2">
                             <Database className="h-4 w-4 text-muted-foreground" />
                             <div>
-                              <div className="text-sm font-medium">{arch.params}</div>
-                              <div className="text-xs text-muted-foreground">Parameters</div>
+                              <div className="text-sm font-medium">
+                                {arch.params}
+                              </div>
+                              <div className="text-xs text-muted-foreground">
+                                Parameters
+                              </div>
                             </div>
                           </div>
                           <div className="flex items-center gap-2">
                             <Cpu className="h-4 w-4 text-muted-foreground" />
                             <div>
-                              <div className="text-sm font-medium">{arch.flops}</div>
-                              <div className="text-xs text-muted-foreground">FLOPs</div>
+                              <div className="text-sm font-medium">
+                                {arch.flops}
+                              </div>
+                              <div className="text-xs text-muted-foreground">
+                                FLOPs
+                              </div>
                             </div>
                           </div>
                           <div className="flex items-center gap-2">
                             <Clock className="h-4 w-4 text-muted-foreground" />
                             <div>
-                              <div className="text-sm font-medium">{arch.latency}ms</div>
-                              <div className="text-xs text-muted-foreground">Latency</div>
+                              <div className="text-sm font-medium">
+                                {arch.latency}ms
+                              </div>
+                              <div className="text-xs text-muted-foreground">
+                                Latency
+                              </div>
                             </div>
                           </div>
                         </div>
@@ -335,10 +393,14 @@ export default function Index() {
                     <div className="h-96 bg-muted/20 rounded-lg flex items-center justify-center">
                       <div className="text-center">
                         <Brain className="h-16 w-16 text-primary mx-auto mb-4" />
-                        <h3 className="text-lg font-semibold mb-2">Interactive Visualization</h3>
+                        <h3 className="text-lg font-semibold mb-2">
+                          Interactive Visualization
+                        </h3>
                         <p className="text-muted-foreground max-w-md">
-                          Explore the neural architecture search space with interactive plots showing 
-                          accuracy vs efficiency trade-offs, architecture similarities, and search progression.
+                          Explore the neural architecture search space with
+                          interactive plots showing accuracy vs efficiency
+                          trade-offs, architecture similarities, and search
+                          progression.
                         </p>
                       </div>
                     </div>
@@ -350,13 +412,17 @@ export default function Index() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <Card className="border-border bg-card/50">
                     <CardHeader>
-                      <CardTitle className="text-base">Pareto Frontier</CardTitle>
+                      <CardTitle className="text-base">
+                        Pareto Frontier
+                      </CardTitle>
                     </CardHeader>
                     <CardContent>
                       <div className="h-48 bg-muted/20 rounded-lg flex items-center justify-center">
                         <div className="text-center">
                           <BarChart3 className="h-8 w-8 text-primary mx-auto mb-2" />
-                          <p className="text-sm text-muted-foreground">Accuracy vs Efficiency</p>
+                          <p className="text-sm text-muted-foreground">
+                            Accuracy vs Efficiency
+                          </p>
                         </div>
                       </div>
                     </CardContent>
@@ -364,13 +430,17 @@ export default function Index() {
 
                   <Card className="border-border bg-card/50">
                     <CardHeader>
-                      <CardTitle className="text-base">Search Convergence</CardTitle>
+                      <CardTitle className="text-base">
+                        Search Convergence
+                      </CardTitle>
                     </CardHeader>
                     <CardContent>
                       <div className="h-48 bg-muted/20 rounded-lg flex items-center justify-center">
                         <div className="text-center">
                           <Activity className="h-8 w-8 text-primary mx-auto mb-2" />
-                          <p className="text-sm text-muted-foreground">Performance Over Time</p>
+                          <p className="text-sm text-muted-foreground">
+                            Performance Over Time
+                          </p>
                         </div>
                       </div>
                     </CardContent>
