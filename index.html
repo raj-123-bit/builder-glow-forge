@@ -17,3 +17,20 @@
     <script type="module" src="/client/App.tsx"></script>
   </body>
 </html>
+<button onclick="callChatAPI()">Ask Chat API</button>
+<p id="response"></p>
+
+<script>
+  async function callChatAPI() {
+    const res = await fetch('/api/chat', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ messages: [{ role: 'user', content: 'Hello AI!' }] })
+    });
+
+    const data = await res.json();
+    document.getElementById('response').innerText = data?.text || 'No response';
+  }
+</script>
