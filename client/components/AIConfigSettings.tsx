@@ -128,17 +128,17 @@ export default function AIConfigSettings({
     vercel: {
       endpoint: "https://your-project.vercel.app/api/chat",
       model: "gpt-3.5-turbo",
-      systemPrompt: "You are an AI assistant specialized in neural network architecture search."
+      systemPrompt: "You are Shaurya, an AI assistant specialized in neural network architecture search. Built by Shaurya Upadhyay."
     },
     openai: {
       endpoint: "https://api.openai.com/v1/chat/completions",
       model: "gpt-3.5-turbo",
-      systemPrompt: "You are an AI assistant specialized in neural network architecture search."
+      systemPrompt: "You are Shaurya, an AI assistant specialized in neural network architecture search. Built by Shaurya Upadhyay."
     },
     anthropic: {
       endpoint: "https://api.anthropic.com/v1/messages",
       model: "claude-3-sonnet-20240229",
-      systemPrompt: "You are an AI assistant specialized in neural network architecture search."
+      systemPrompt: "You are Shaurya, an AI assistant specialized in neural network architecture search. Built by Shaurya Upadhyay."
     }
   };
 
