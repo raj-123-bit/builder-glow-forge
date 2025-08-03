@@ -264,14 +264,14 @@ export default function AIChatWidget() {
                 <Bot className="h-4 w-4 text-primary" />
               </div>
               <div>
-                <CardTitle className="text-sm">NAS AI Assistant</CardTitle>
+                <CardTitle className="text-sm">Shaurya AI Assistant</CardTitle>
                 <div className="flex items-center gap-1">
                   <div className={cn(
                     "w-2 h-2 rounded-full",
                     aiConfig.enabled ? "bg-green-500 animate-pulse" : "bg-yellow-500"
                   )}></div>
                   <span className="text-xs text-muted-foreground">
-                    {aiConfig.enabled ? "Custom AI" : "Built-in"}
+                    {aiConfig.enabled ? "Custom AI" : "Built by Shaurya"}
                   </span>
                 </div>
               </div>
