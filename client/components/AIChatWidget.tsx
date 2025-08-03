@@ -139,24 +139,24 @@ export default function AIChatWidget() {
 
   const generateFallbackResponse = (userInput: string): string => {
     const input = userInput.toLowerCase();
-    
+
     if (input.includes("architecture") || input.includes("model")) {
-      return "I can help you understand neural architectures! Are you looking for information about specific models like EfficientNet, ResNet, or MobileNet? Or would you like guidance on architecture search strategies?";
+      return "I'm Shaurya, and I can help you understand neural architectures! Are you looking for information about specific models like EfficientNet, ResNet, or MobileNet? Or would you like guidance on architecture search strategies?";
     }
-    
+
     if (input.includes("search") || input.includes("configuration")) {
-      return "For neural architecture search, I recommend starting with evolutionary search for broad exploration. Consider your target dataset size, computational budget, and performance requirements. Would you like me to suggest optimal parameters?";
+      return "As Shaurya, I recommend starting with evolutionary search for broad exploration. Consider your target dataset size, computational budget, and performance requirements. Would you like me to suggest optimal parameters?";
     }
-    
+
     if (input.includes("performance") || input.includes("accuracy")) {
       return "Performance analysis involves multiple metrics: accuracy, inference latency, model size, and FLOPs. The Pareto frontier helps identify optimal trade-offs. What specific performance aspect interests you?";
     }
-    
+
     if (input.includes("help") || input.includes("how")) {
-      return "I'm here to help! I can assist with:\n• Search configuration and parameter tuning\n• Architecture analysis and comparison\n• Performance optimization strategies\n• Result interpretation\n• Best practices for NAS\n\nWhat would you like to explore?";
+      return "I'm Shaurya, and I'm here to help! I can assist with:\n• Search configuration and parameter tuning\n• Architecture analysis and comparison\n• Performance optimization strategies\n• Result interpretation\n• Best practices for NAS\n\nWhat would you like to explore?";
     }
-    
-    return "That's an interesting question about neural architecture search! Could you provide more details about what you're trying to achieve? I can help with search strategies, architecture analysis, or performance optimization.";
+
+    return "That's an interesting question about neural architecture search! I'm Shaurya, and I'd love to help. Could you provide more details about what you're trying to achieve? I can help with search strategies, architecture analysis, or performance optimization.";
   };
 
   const handleSendMessage = async () => {
