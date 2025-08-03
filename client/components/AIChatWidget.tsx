@@ -245,7 +245,7 @@ export default function AIChatWidget() {
           <span className="sr-only">Open AI Chat</span>
         </Button>
         <div className="absolute -top-12 right-0 bg-primary text-primary-foreground px-3 py-1 rounded-lg text-sm font-medium shadow-lg animate-pulse">
-          {aiConfig.enabled ? "AI Connected" : "Ask AI for help"}
+          {aiConfig.enabled ? "Shaurya AI Connected" : "Ask Shaurya for help"}
         </div>
       </div>
     );
