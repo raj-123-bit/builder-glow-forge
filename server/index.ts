@@ -18,22 +18,26 @@ export function createServer() {
       name: "NeuralArchSearch API",
       version: "1.0.0",
       author: "Shaurya Upadhyay",
-      description: "Neural Network Architecture Search API with Shaurya AI Assistant",
+      description:
+        "Neural Network Architecture Search API with Shaurya AI Assistant",
       endpoints: {
         "GET /api": "This info",
         "GET /api/ping": "Health check",
         "GET /api/demo": "Demo endpoint",
-        "POST /api/chat": "Shaurya AI Chat endpoint"
+        "POST /api/chat": "Shaurya AI Chat endpoint",
       },
       chat_example: {
         method: "POST",
         url: "/api/chat",
         body: {
           messages: [
-            { role: "user", content: "Hello Shaurya, help me with neural architecture search" }
-          ]
-        }
-      }
+            {
+              role: "user",
+              content: "Hello Shaurya, help me with neural architecture search",
+            },
+          ],
+        },
+      },
     });
   });
 
