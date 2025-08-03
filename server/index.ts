@@ -20,5 +20,8 @@ export function createServer() {
 
   app.get("/api/demo", handleDemo);
 
+  // Shaurya AI Chat endpoint
+  app.post("/api/chat", handleChat);
+
   return app;
 }
