@@ -88,7 +88,7 @@ export default function ArchitectureDetails() {
                 <div>
                   <h1 className="text-xl font-bold">{architecture.name}</h1>
                   <p className="text-sm text-muted-foreground">
-                    Neural Architecture Details
+                    Neural Architecture Details • Built by Shaurya Upadhyay
                   </p>
                 </div>
               </div>
