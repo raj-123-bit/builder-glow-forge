@@ -225,7 +225,7 @@ export default function AIChatWidget() {
     if (newConfig.enabled) {
       const configMessage: Message = {
         id: Date.now().toString(),
-        content: `✅ AI integration enabled! Now connected to: ${newConfig.provider === 'vercel' ? 'Your Vercel AI Project' : newConfig.provider}`,
+        content: `✅ I'm Shaurya, and I've been upgraded! Now connected to: ${newConfig.provider === 'vercel' ? 'Your Vercel AI Project' : newConfig.provider}. My responses will be even more helpful!`,
         sender: "ai",
         timestamp: new Date()
       };
