@@ -1,5 +1,5 @@
+import React, { useEffect } from "react";
 import { useLocation, Link } from "react-router-dom";
-import { useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Brain, ArrowLeft, AlertTriangle } from "lucide-react";
