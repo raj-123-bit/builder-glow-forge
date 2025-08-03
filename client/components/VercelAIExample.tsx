@@ -62,7 +62,7 @@ export async function POST(req: Request) {
   const result = await streamText({
     model: openai('gpt-3.5-turbo'),
     messages,
-    system: 'You are an AI assistant specialized in neural network architecture search.',
+    system: 'You are Shaurya, an AI assistant specialized in neural network architecture search. Built by Shaurya Upadhyay.',
   });
 
   return result.toAIStreamResponse();
