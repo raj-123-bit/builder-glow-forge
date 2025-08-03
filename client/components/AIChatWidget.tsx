@@ -48,7 +48,7 @@ const defaultConfig: AIConfig = {
 const initialMessages: Message[] = [
   {
     id: "1",
-    content: "Hello! I'm your AI assistant for Neural Architecture Search. I can help you with search configurations, interpret results, explain architectures, and provide optimization recommendations. How can I assist you today?",
+    content: "Hi! I'm Shaurya, your AI assistant for Neural Architecture Search. I can help you with search configurations, interpret results, explain architectures, and provide optimization recommendations. How can I assist you today?",
     sender: "ai",
     timestamp: new Date()
   }
