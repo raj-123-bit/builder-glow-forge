@@ -1,4 +1,4 @@
-import { VercelRequest, VercelResponse } from '@vercel/node';
+import { VercelRequest, VercelResponse } from "@vercel/node";
 
 interface ChatMessage {
   role: "user" | "assistant" | "system";
@@ -24,21 +24,29 @@ interface ChatResponse {
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   // Handle CORS
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader(
+    "Access-Control-Allow-Methods",
+    "GET, POST, PUT, DELETE, OPTIONS",
+  );
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
 
-  if (req.method === 'OPTIONS') {
+  if (req.method === "OPTIONS") {
     res.status(200).end();
     return;
   }
 
-  if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Method not allowed' });
+  if (req.method !== "POST") {
+    return res.status(405).json({ error: "Method not allowed" });
   }
 
   try {
-    const { messages, model = "shaurya-ai", max_tokens = 500, temperature = 0.7 } = req.body as ChatRequest;
+    const {
+      messages,
+      model = "shaurya-ai",
+      max_tokens = 500,
+      temperature = 0.7,
+    } = req.body as ChatRequest;
 
     if (!messages || !Array.isArray(messages)) {
       return res.status(400).json({
@@ -131,7 +139,11 @@ function generateShauryaResponse(
   }
 
   // Deployment or Vercel topics
-  if (input.includes("vercel") || input.includes("deploy") || input.includes("production")) {
+  if (
+    input.includes("vercel") ||
+    input.includes("deploy") ||
+    input.includes("production")
+  ) {
     return "Great! I'm Shaurya, and I can see you're deploying to Vercel! 🚀\n\nYour Neural Architecture Search application is now running on Vercel's global edge network. This means:\n\n• **Fast Performance**: Global CDN for optimal loading\n• **Scalability**: Automatic scaling based on demand\n• **Reliability**: 99.99% uptime SLA\n• **AI Integration**: Perfect for neural network applications\n\nHow can I help you optimize your NAS workflows on this production environment?";
   }
 
