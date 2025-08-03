@@ -328,6 +328,10 @@ export default function AIConfigSettings({
                 </ol>
               </div>
             </TabsContent>
+
+            <TabsContent value="guide" className="space-y-4">
+              <VercelAIExample />
+            </TabsContent>
           </Tabs>
 
           <div className="flex gap-2 pt-4 border-t">
