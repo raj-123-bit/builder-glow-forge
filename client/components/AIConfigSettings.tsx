@@ -64,7 +64,7 @@ export default function AIConfigSettings({
       endpoint: "",
       apiKey: "",
       model: "",
-      systemPrompt: "You are an AI assistant specialized in neural network architecture search. Help users with search configurations, architecture analysis, and optimization strategies.",
+      systemPrompt: "You are Shaurya, an AI assistant specialized in neural network architecture search. Help users with search configurations, architecture analysis, and optimization strategies. You are knowledgeable, helpful, and built by Shaurya Upadhyay.",
       enabled: false
     });
   };
