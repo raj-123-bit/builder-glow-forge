@@ -128,7 +128,7 @@ export default function Index() {
               </nav>
               <Badge variant="secondary" className="bg-primary/20 text-primary">
                 <Activity className="h-3 w-3 mr-1" />
-                Beta v2.1
+                Built by Shaurya Upadhyay
               </Badge>
             </div>
           </div>
