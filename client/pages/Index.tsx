@@ -107,7 +107,7 @@ export default function Index() {
               <div>
                 <h1 className="text-xl font-bold">NeuralArchSearch</h1>
                 <p className="text-sm text-muted-foreground">
-                  AI-Powered Architecture Discovery
+                  AI-Powered Architecture Discovery • Built by Shaurya Upadhyay
                 </p>
               </div>
             </div>
