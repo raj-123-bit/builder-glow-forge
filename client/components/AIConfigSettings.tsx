@@ -188,9 +188,10 @@ export default function AIConfigSettings({
           </div>
 
           <Tabs defaultValue="configuration" className="w-full">
-            <TabsList className="grid w-full grid-cols-2">
+            <TabsList className="grid w-full grid-cols-3">
               <TabsTrigger value="configuration">Configuration</TabsTrigger>
               <TabsTrigger value="testing">Test & Verify</TabsTrigger>
+              <TabsTrigger value="guide">Vercel Guide</TabsTrigger>
             </TabsList>
 
             <TabsContent value="configuration" className="space-y-4">
