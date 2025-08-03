@@ -18,19 +18,21 @@ const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <Toaster />
-    <Sonner />
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Index />} />
-        <Route path="/architecture/:id" element={<ArchitectureDetails />} />
-        <Route path="/experiments" element={<Experiments />} />
-        <Route path="/datasets" element={<Datasets />} />
-        {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-        <Route path="*" element={<NotFound />} />
-      </Routes>
-      <AIChatWidget />
-    </BrowserRouter>
+    <TooltipProvider>
+      <Toaster />
+      <Sonner />
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Index />} />
+          <Route path="/architecture/:id" element={<ArchitectureDetails />} />
+          <Route path="/experiments" element={<Experiments />} />
+          <Route path="/datasets" element={<Datasets />} />
+          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+        <AIChatWidget />
+      </BrowserRouter>
+    </TooltipProvider>
   </QueryClientProvider>
 );
 
