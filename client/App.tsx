@@ -11,6 +11,7 @@ import ArchitectureDetails from "./pages/ArchitectureDetails";
 import Experiments from "./pages/Experiments";
 import Datasets from "./pages/Datasets";
 import NotFound from "./pages/NotFound";
+import AIChatWidget from "./components/AIChatWidget";
 
 const queryClient = new QueryClient();
 
