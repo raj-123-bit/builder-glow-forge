@@ -1,3 +1,4 @@
+import React from "react";
 import PlaceholderPage from "@/components/PlaceholderPage";
 import { FlaskConical } from "lucide-react";
 
