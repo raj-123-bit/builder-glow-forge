@@ -1,24 +1,24 @@
-import React, { useState } from 'react';
-import { useAuth } from '@/contexts/AuthContext';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Badge } from '@/components/ui/badge';
-import { Alert, AlertDescription } from '@/components/ui/alert';
-import { 
-  User, 
-  Mail, 
-  Lock, 
-  UserPlus, 
-  LogIn, 
-  LogOut, 
+import React, { useState } from "react";
+import { useAuth } from "@/contexts/AuthContext";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Badge } from "@/components/ui/badge";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import {
+  User,
+  Mail,
+  Lock,
+  UserPlus,
+  LogIn,
+  LogOut,
   Brain,
   Loader2,
   AlertCircle,
-  CheckCircle
-} from 'lucide-react';
+  CheckCircle,
+} from "lucide-react";
 
 // Authentication Components for Neural Architecture Search
 // Built by Shaurya Upadhyay
@@ -28,12 +28,15 @@ interface AuthFormProps {
 }
 
 export function AuthModal({ onSuccess }: AuthFormProps) {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [fullName, setFullName] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [fullName, setFullName] = useState("");
   const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
-  const [activeTab, setActiveTab] = useState('signin');
+  const [message, setMessage] = useState<{
+    type: "success" | "error";
+    text: string;
+  } | null>(null);
+  const [activeTab, setActiveTab] = useState("signin");
 
   const { signIn, signUp, resetPassword } = useAuth();
 
@@ -45,14 +48,14 @@ export function AuthModal({ onSuccess }: AuthFormProps) {
     setMessage(null);
 
     const { error } = await signIn(email, password);
-    
+
     if (error) {
-      setMessage({ type: 'error', text: error.message });
+      setMessage({ type: "error", text: error.message });
     } else {
-      setMessage({ type: 'success', text: 'Successfully signed in!' });
+      setMessage({ type: "success", text: "Successfully signed in!" });
       onSuccess?.();
     }
-    
+
     setLoading(false);
   };
 
@@ -64,19 +67,22 @@ export function AuthModal({ onSuccess }: AuthFormProps) {
     setMessage(null);
 
     const { error } = await signUp(email, password, { full_name: fullName });
-    
+
     if (error) {
-      setMessage({ type: 'error', text: error.message });
+      setMessage({ type: "error", text: error.message });
     } else {
-      setMessage({ type: 'success', text: 'Check your email to confirm your account!' });
+      setMessage({
+        type: "success",
+        text: "Check your email to confirm your account!",
+      });
     }
-    
+
     setLoading(false);
   };
 
   const handleResetPassword = async () => {
     if (!email) {
-      setMessage({ type: 'error', text: 'Please enter your email address' });
+      setMessage({ type: "error", text: "Please enter your email address" });
       return;
     }
 
@@ -84,20 +90,20 @@ export function AuthModal({ onSuccess }: AuthFormProps) {
     setMessage(null);
 
     const { error } = await resetPassword(email);
-    
+
     if (error) {
-      setMessage({ type: 'error', text: error.message });
+      setMessage({ type: "error", text: error.message });
     } else {
-      setMessage({ type: 'success', text: 'Password reset email sent!' });
+      setMessage({ type: "success", text: "Password reset email sent!" });
     }
-    
+
     setLoading(false);
   };
 
   const resetForm = () => {
-    setEmail('');
-    setPassword('');
-    setFullName('');
+    setEmail("");
+    setPassword("");
+    setFullName("");
     setMessage(null);
   };
 
@@ -108,10 +114,18 @@ export function AuthModal({ onSuccess }: AuthFormProps) {
           <Brain className="h-6 w-6 text-primary" />
         </div>
         <CardTitle className="text-xl">Neural Architecture Search</CardTitle>
-        <p className="text-sm text-muted-foreground">Built by Shaurya Upadhyay</p>
+        <p className="text-sm text-muted-foreground">
+          Built by Shaurya Upadhyay
+        </p>
       </CardHeader>
       <CardContent>
-        <Tabs value={activeTab} onValueChange={(tab) => { setActiveTab(tab); resetForm(); }}>
+        <Tabs
+          value={activeTab}
+          onValueChange={(tab) => {
+            setActiveTab(tab);
+            resetForm();
+          }}
+        >
           <TabsList className="grid w-full grid-cols-2">
             <TabsTrigger value="signin">Sign In</TabsTrigger>
             <TabsTrigger value="signup">Sign Up</TabsTrigger>
@@ -165,9 +179,9 @@ export function AuthModal({ onSuccess }: AuthFormProps) {
                 )}
               </Button>
 
-              <Button 
-                type="button" 
-                variant="link" 
+              <Button
+                type="button"
+                variant="link"
                 onClick={handleResetPassword}
                 disabled={loading}
                 className="w-full text-sm"
@@ -248,21 +262,25 @@ export function AuthModal({ onSuccess }: AuthFormProps) {
         </Tabs>
 
         {message && (
-          <Alert className={`mt-4 ${
-            message.type === 'success' 
-              ? 'border-green-200 bg-green-50 dark:border-green-800 dark:bg-green-950/20' 
-              : 'border-red-200 bg-red-50 dark:border-red-800 dark:bg-red-950/20'
-          }`}>
-            {message.type === 'success' ? (
+          <Alert
+            className={`mt-4 ${
+              message.type === "success"
+                ? "border-green-200 bg-green-50 dark:border-green-800 dark:bg-green-950/20"
+                : "border-red-200 bg-red-50 dark:border-red-800 dark:bg-red-950/20"
+            }`}
+          >
+            {message.type === "success" ? (
               <CheckCircle className="h-4 w-4 text-green-600" />
             ) : (
               <AlertCircle className="h-4 w-4 text-red-600" />
             )}
-            <AlertDescription className={
-              message.type === 'success' 
-                ? 'text-green-800 dark:text-green-200'
-                : 'text-red-800 dark:text-red-200'
-            }>
+            <AlertDescription
+              className={
+                message.type === "success"
+                  ? "text-green-800 dark:text-green-200"
+                  : "text-red-800 dark:text-red-200"
+              }
+            >
               {message.text}
             </AlertDescription>
           </Alert>
@@ -292,13 +310,13 @@ export function UserProfile() {
         </div>
         <div className="hidden sm:block">
           <div className="text-sm font-medium">
-            {user.user_metadata?.full_name || user.email?.split('@')[0]}
+            {user.user_metadata?.full_name || user.email?.split("@")[0]}
           </div>
           <div className="text-xs text-muted-foreground">{user.email}</div>
         </div>
       </div>
-      
-      <Button 
+
+      <Button
         onClick={handleSignOut}
         disabled={loading}
         variant="outline"
@@ -331,7 +349,7 @@ export function AuthButton() {
         <LogIn className="h-4 w-4 mr-2" />
         Sign In
       </Button>
-      
+
       {showModal && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
           <div className="relative">

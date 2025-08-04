@@ -1,7 +1,7 @@
-import React from 'react';
-import { useAuth } from '@/contexts/AuthContext';
-import { AuthModal } from './AuthComponents';
-import { Loader2 } from 'lucide-react';
+import React from "react";
+import { useAuth } from "@/contexts/AuthContext";
+import { AuthModal } from "./AuthComponents";
+import { Loader2 } from "lucide-react";
 
 // Protected Route component for Neural Architecture Search
 // Built by Shaurya Upadhyay
@@ -11,7 +11,10 @@ interface ProtectedRouteProps {
   fallback?: React.ReactNode;
 }
 
-export default function ProtectedRoute({ children, fallback }: ProtectedRouteProps) {
+export default function ProtectedRoute({
+  children,
+  fallback,
+}: ProtectedRouteProps) {
   const { user, loading } = useAuth();
 
   if (loading) {
@@ -26,18 +29,22 @@ export default function ProtectedRoute({ children, fallback }: ProtectedRoutePro
   }
 
   if (!user) {
-    return fallback || (
-      <div className="min-h-screen bg-background flex items-center justify-center p-4">
-        <div className="text-center space-y-6">
-          <div>
-            <h1 className="text-2xl font-bold mb-2">Authentication Required</h1>
-            <p className="text-muted-foreground">
-              Please sign in to access Neural Architecture Search features
-            </p>
+    return (
+      fallback || (
+        <div className="min-h-screen bg-background flex items-center justify-center p-4">
+          <div className="text-center space-y-6">
+            <div>
+              <h1 className="text-2xl font-bold mb-2">
+                Authentication Required
+              </h1>
+              <p className="text-muted-foreground">
+                Please sign in to access Neural Architecture Search features
+              </p>
+            </div>
+            <AuthModal />
           </div>
-          <AuthModal />
         </div>
-      </div>
+      )
     );
   }
 
@@ -48,7 +55,13 @@ export default function ProtectedRoute({ children, fallback }: ProtectedRoutePro
 export function useAuthContent() {
   const { user, loading } = useAuth();
 
-  const AuthGate = ({ children, fallback }: { children: React.ReactNode; fallback?: React.ReactNode }) => {
+  const AuthGate = ({
+    children,
+    fallback,
+  }: {
+    children: React.ReactNode;
+    fallback?: React.ReactNode;
+  }) => {
     if (loading) {
       return (
         <div className="text-center py-4">
@@ -59,13 +72,15 @@ export function useAuthContent() {
     }
 
     if (!user) {
-      return fallback || (
-        <div className="text-center py-8 px-4">
-          <h3 className="text-lg font-semibold mb-2">Sign In Required</h3>
-          <p className="text-muted-foreground mb-4">
-            Sign in to save your experiments and track your progress
-          </p>
-        </div>
+      return (
+        fallback || (
+          <div className="text-center py-8 px-4">
+            <h3 className="text-lg font-semibold mb-2">Sign In Required</h3>
+            <p className="text-muted-foreground mb-4">
+              Sign in to save your experiments and track your progress
+            </p>
+          </div>
+        )
       );
     }
 
@@ -76,6 +91,6 @@ export function useAuthContent() {
     user,
     loading,
     isAuthenticated: !!user,
-    AuthGate
+    AuthGate,
   };
 }
