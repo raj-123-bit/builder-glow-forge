@@ -40,6 +40,7 @@ const App = () => (
               <Route path="*" element={<NotFound />} />
             </Routes>
             <AuthAwareAIChatWidget />
+            {import.meta.env.MODE === 'development' && <DebugDashboard />}
           </BrowserRouter>
         </TooltipProvider>
       </AuthProvider>
