@@ -222,7 +222,7 @@ export default function AIChatWidget() {
           responseSource = aiConfig.provider;
 
           const aiDuration = performance.now() - aiStartTime;
-          trackAIInteraction(currentInput, aiResponse, aiConfig.model, aiDuration);
+          trackAIInteraction(currentInput, aiResponse, aiConfig.model, aiDuration).catch(console.warn);
 
           debugLog('Custom AI Response Success', {
             duration: aiDuration,
