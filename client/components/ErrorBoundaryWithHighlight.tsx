@@ -69,13 +69,13 @@ class NASErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState>
   }
 
   handleReset = () => {
-    debugLog('Error Boundary Reset', { context: this.props.context });
+    debugLog('Error Boundary Reset', { context: this.props.context }).catch(console.warn);
     this.setState({ hasError: false, error: undefined, errorInfo: undefined });
   };
 
   handleReportBug = () => {
     const { error, errorId } = this.state;
-    debugLog('Bug Report Initiated', { errorId, error: error?.message });
+    debugLog('Bug Report Initiated', { errorId, error: error?.message }).catch(console.warn);
     
     // In a real app, this would open a bug report form
     // For now, we'll just copy error details to clipboard
