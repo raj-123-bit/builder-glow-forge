@@ -45,7 +45,7 @@ class NASErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState>
       timestamp: new Date().toISOString(),
       userAgent: navigator.userAgent,
       url: window.location.href
-    });
+    }).catch(console.warn);
 
     // Debug logging
     debugLog('Error Boundary Caught Error', {
