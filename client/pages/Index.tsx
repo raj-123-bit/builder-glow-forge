@@ -282,6 +282,11 @@ export default function Index() {
                 </div>
               </CardContent>
             </Card>
+
+            {/* Database Status */}
+            <div className="mt-6">
+              <DatabaseStatus />
+            </div>
           </div>
 
           {/* Results & Visualization */}
