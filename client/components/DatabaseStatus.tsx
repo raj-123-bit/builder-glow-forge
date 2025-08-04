@@ -42,73 +42,35 @@ export default function DatabaseStatus() {
 
       // Check if supabase client is properly initialized
       if (!supabase) {
-        throw new Error(
-          "Supabase client not initialized. Check your configuration.",
-        );
+        throw new Error("Supabase client not initialized. Check your configuration.");
       }
 
-      console.log("Supabase client:", supabase);
-
-      // Test basic client functionality
       try {
-        console.log("Testing supabase.from method...");
-        const table = supabase.from("search_experiments");
-        console.log("Table object:", table);
-
-        console.log("Testing select method...");
-        const query = table.select("id");
-        console.log("Query object:", query);
-      } catch (clientError) {
-        logError("Supabase Client Test", clientError);
-        throw new Error(
-          `Supabase client error: ${extractErrorMessage(clientError)}`,
-        );
-      }
-
-      // First try a simple connection test
-      try {
-        console.log("Testing basic table access...");
-        const response = await supabase
+        // Simple connection test
+        const { data, error: healthError } = await supabase
           .from("search_experiments")
           .select("id")
           .limit(1);
 
-        console.log("Supabase table response:", response);
-
-        const { data, error: healthError } = response;
-
         if (healthError) {
-          console.log("Health error details:", {
-            code: healthError.code,
-            message: healthError.message,
-            details: healthError.details,
-            hint: healthError.hint,
-          });
-
           if (healthError.code === "42P01") {
             // Table doesn't exist - need to run setup
-            throw new Error(
-              "Database tables not found. Please run the setup script in Supabase SQL Editor",
-            );
+            setConnectionStatus("error");
+            setError("✨ Connected to Supabase! Now run the database setup script in the SQL Editor.");
+            return;
           } else {
             throw healthError;
           }
         }
 
-        console.log("Basic connection test passed, data:", data);
+        // Get global stats if tables exist
+        const globalStats = await NeuralArchSearchDB.getGlobalStats();
+        setStats(globalStats);
+        setConnectionStatus("connected");
       } catch (testError) {
         logError("Connection Test", testError);
         throw testError;
       }
-
-      console.log("Getting global stats...");
-
-      // Get global stats
-      const globalStats = await NeuralArchSearchDB.getGlobalStats();
-      console.log("Global stats:", globalStats);
-
-      setStats(globalStats);
-      setConnectionStatus("connected");
     } catch (err) {
       logError("Database Connection", err);
       const errorMessage = extractErrorMessage(err);
