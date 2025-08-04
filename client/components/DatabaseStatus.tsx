@@ -168,33 +168,26 @@ export default function DatabaseStatus() {
         )}
 
         {error && (
-          <div className="bg-destructive/10 border border-destructive/20 rounded-lg p-3">
-            <div className="text-sm text-destructive font-medium mb-1">
-              Connection Error
+          <div className={`border rounded-lg p-3 ${
+            error.includes("✨")
+              ? "bg-blue-50 dark:bg-blue-950/20 border-blue-200 dark:border-blue-800"
+              : error.includes("⚠️")
+              ? "bg-yellow-50 dark:bg-yellow-950/20 border-yellow-200 dark:border-yellow-800"
+              : "bg-destructive/10 border-destructive/20"
+          }`}>
+            <div className={`text-sm font-medium mb-1 ${
+              error.includes("✨") || error.includes("⚠️")
+                ? "text-foreground"
+                : "text-destructive"
+            }`}>
+              {error.includes("✨")
+                ? "Database Setup Needed"
+                : error.includes("⚠️")
+                ? "Configuration Required"
+                : "Connection Error"
+              }
             </div>
             <div className="text-xs text-muted-foreground">{error}</div>
-            {error.includes("environment variables") && (
-              <div className="text-xs text-muted-foreground mt-2">
-                💡 Create a .env.local file with your Supabase credentials
-              </div>
-            )}
-            {(error.includes("relation") ||
-              error.includes("tables not found") ||
-              error.includes("42P01")) && (
-              <div className="text-xs text-muted-foreground mt-2">
-                💡 Tip: Run the database setup script in Supabase SQL Editor
-              </div>
-            )}
-            {error.includes("Invalid API key") && (
-              <div className="text-xs text-muted-foreground mt-2">
-                💡 Check your VITE_SUPABASE_ANON_KEY in .env.local
-              </div>
-            )}
-            {error.includes("Invalid JWT") && (
-              <div className="text-xs text-muted-foreground mt-2">
-                💡 Your Supabase API key may be incorrect or expired
-              </div>
-            )}
           </div>
         )}
 
