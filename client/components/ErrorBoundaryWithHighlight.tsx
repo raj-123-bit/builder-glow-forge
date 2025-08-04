@@ -218,11 +218,9 @@ export function withErrorBoundary<P extends object>(
 // Main Error Boundary component with Highlight.io integration
 export function ErrorBoundaryWithHighlight({ children, ...props }: ErrorBoundaryProps) {
   return (
-    <HighlightErrorBoundary>
-      <NASErrorBoundary {...props}>
-        {children}
-      </NASErrorBoundary>
-    </HighlightErrorBoundary>
+    <NASErrorBoundary {...props}>
+      {children}
+    </NASErrorBoundary>
   );
 }
 
