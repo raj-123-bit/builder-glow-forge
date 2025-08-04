@@ -40,7 +40,7 @@ const App = () => (
 );
 
 // Prevent multiple createRoot calls during development
-const rootElement = document.getElementById("root")!;
+const rootElement = document.getElementById("root")! as HTMLElement & { _reactRoot?: any };
 if (!rootElement._reactRoot) {
   const root = createRoot(rootElement);
   rootElement._reactRoot = root;
