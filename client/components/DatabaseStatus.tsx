@@ -20,6 +20,11 @@ export default function DatabaseStatus() {
       setConnectionStatus("checking");
       setError(null);
 
+      // Check if Supabase is configured
+      if (!import.meta.env.VITE_SUPABASE_URL || !import.meta.env.VITE_SUPABASE_ANON_KEY) {
+        throw new Error("Supabase environment variables not configured. Please add VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY to your .env.local file");
+      }
+
       // Test basic Supabase connection
       const { data, error: connectionError } = await supabase
         .from("search_experiments")
