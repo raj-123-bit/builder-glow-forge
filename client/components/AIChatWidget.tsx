@@ -56,8 +56,19 @@ const initialMessages: Message[] = [
   },
 ];
 
+// Safe hook to use auth when available
+function useSafeAuth() {
+  try {
+    const { useAuth } = require("@/contexts/AuthContext");
+    return useAuth();
+  } catch (error) {
+    // AuthProvider not available, return default values
+    return { user: null, loading: false };
+  }
+}
+
 export default function AIChatWidget() {
-  const { user } = useAuth();
+  const { user } = useSafeAuth();
   const [isOpen, setIsOpen] = useState(false);
   const [isMinimized, setIsMinimized] = useState(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
