@@ -16,6 +16,7 @@ import Experiments from "./pages/Experiments";
 import Datasets from "./pages/Datasets";
 import NotFound from "./pages/NotFound";
 import AuthAwareAIChatWidget from "./components/AuthAwareAIChatWidget";
+import DebugDashboard from "./components/DebugDashboard";
 
 // Initialize Highlight.io for debugging and monitoring
 initializeHighlight();
