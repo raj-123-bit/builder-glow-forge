@@ -40,6 +40,7 @@ const App = () => (
               />
               <Route path="/experiments" element={<Experiments />} />
               <Route path="/datasets" element={<Datasets />} />
+              <Route path="/auth/callback" element={<AuthCallback />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>
