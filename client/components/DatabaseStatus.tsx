@@ -24,23 +24,18 @@ export default function DatabaseStatus() {
       setError(null);
 
       console.log("Checking Supabase configuration...");
-      console.log(
-        "VITE_SUPABASE_URL:",
-        import.meta.env.VITE_SUPABASE_URL ? "Set" : "Not set",
-      );
-      console.log(
-        "VITE_SUPABASE_ANON_KEY:",
-        import.meta.env.VITE_SUPABASE_ANON_KEY ? "Set" : "Not set",
-      );
+
+      const hasUrl = import.meta.env.VITE_SUPABASE_URL;
+      const hasKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+
+      console.log("VITE_SUPABASE_URL:", hasUrl ? "Set" : "Not set");
+      console.log("VITE_SUPABASE_ANON_KEY:", hasKey ? "Set" : "Not set");
 
       // Check if Supabase is configured
-      if (
-        !import.meta.env.VITE_SUPABASE_URL ||
-        !import.meta.env.VITE_SUPABASE_ANON_KEY
-      ) {
-        throw new Error(
-          "Supabase environment variables not configured. Please add VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY to your .env.local file",
-        );
+      if (!hasUrl || !hasKey) {
+        setConnectionStatus("error");
+        setError("⚠️ Supabase credentials not configured. Use the Quick Connection Test above to set up your database.");
+        return;
       }
 
       console.log("Testing Supabase connection...");
