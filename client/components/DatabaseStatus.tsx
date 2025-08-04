@@ -92,24 +92,8 @@ export default function DatabaseStatus() {
       // Refresh stats
       await checkConnection();
     } catch (err) {
-      console.error("Database test error:", err);
-
-      // Properly extract error message
-      let errorMessage = "Test failed";
-      if (err instanceof Error) {
-        errorMessage = err.message;
-      } else if (typeof err === 'object' && err !== null) {
-        if ('message' in err) {
-          errorMessage = (err as any).message;
-        } else if ('error' in err) {
-          errorMessage = (err as any).error;
-        } else {
-          errorMessage = JSON.stringify(err);
-        }
-      } else if (typeof err === 'string') {
-        errorMessage = err;
-      }
-
+      logError("Database Test", err);
+      const errorMessage = extractErrorMessage(err);
       setError(errorMessage);
     } finally {
       setTesting(false);
