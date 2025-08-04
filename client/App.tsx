@@ -14,6 +14,7 @@ import Index from "./pages/Index";
 import ArchitectureDetails from "./pages/ArchitectureDetails";
 import Experiments from "./pages/Experiments";
 import Datasets from "./pages/Datasets";
+import AuthCallback from "./pages/AuthCallback";
 import NotFound from "./pages/NotFound";
 import AuthAwareAIChatWidget from "./components/AuthAwareAIChatWidget";
 import DebugDashboard from "./components/DebugDashboard";
