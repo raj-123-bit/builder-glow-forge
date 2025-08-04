@@ -130,10 +130,14 @@ export default function Index() {
                   Datasets
                 </Link>
               </nav>
-              <Badge variant="secondary" className="bg-primary/20 text-primary">
-                <Activity className="h-3 w-3 mr-1" />
-                Built by Shaurya Upadhyay
-              </Badge>
+              <div className="flex items-center gap-3">
+                <AuthStatus />
+                <Badge variant="secondary" className="bg-primary/20 text-primary">
+                  <Activity className="h-3 w-3 mr-1" />
+                  Built by Shaurya Upadhyay
+                </Badge>
+                <AuthButton />
+              </div>
             </div>
           </div>
         </div>
