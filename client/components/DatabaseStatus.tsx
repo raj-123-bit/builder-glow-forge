@@ -32,6 +32,13 @@ export default function DatabaseStatus() {
 
       console.log("Testing Supabase connection...");
 
+      // Check if supabase client is properly initialized
+      if (!supabase) {
+        throw new Error("Supabase client not initialized. Check your configuration.");
+      }
+
+      console.log("Supabase client:", supabase);
+
       // First try a simple connection test
       try {
         console.log("Testing basic table access...");
