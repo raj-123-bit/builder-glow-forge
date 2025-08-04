@@ -8,7 +8,39 @@ const supabaseUrl =
 const supabaseAnonKey =
   import.meta.env.VITE_SUPABASE_ANON_KEY || "";
 
-export const supabase = createClient(supabaseUrl, supabaseAnonKey);
+// Create Supabase client with error handling
+let supabase: any;
+
+try {
+  if (!supabaseUrl || !supabaseAnonKey) {
+    console.warn('Supabase credentials not found. Database features will be disabled.');
+    console.warn('Please set VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY in your .env.local file');
+
+    // Create a mock client for development
+    supabase = {
+      from: () => ({
+        select: () => Promise.resolve({ data: [], error: new Error('Supabase not configured') }),
+        insert: () => Promise.resolve({ data: null, error: new Error('Supabase not configured') }),
+        update: () => Promise.resolve({ data: null, error: new Error('Supabase not configured') }),
+        delete: () => Promise.resolve({ data: null, error: new Error('Supabase not configured') }),
+        eq: function() { return this; },
+        order: function() { return this; },
+        limit: function() { return this; },
+        single: function() { return this; }
+      }),
+      channel: () => ({
+        on: () => ({ subscribe: () => {} })
+      })
+    };
+  } else {
+    supabase = createClient(supabaseUrl, supabaseAnonKey);
+  }
+} catch (error) {
+  console.error('Failed to initialize Supabase client:', error);
+  supabase = null;
+}
+
+export { supabase };
 
 // Database Types for Neural Architecture Search
 export interface SearchExperiment {
