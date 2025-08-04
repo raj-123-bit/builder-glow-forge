@@ -56,6 +56,7 @@ const initialMessages: Message[] = [
 ];
 
 export default function AIChatWidget() {
+  const { user } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
   const [isMinimized, setIsMinimized] = useState(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
