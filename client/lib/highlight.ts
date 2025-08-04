@@ -18,11 +18,11 @@ export const initializeHighlight = async () => {
   try {
     // Try to import and initialize Highlight.io
     const highlightModule = await import('@highlight-run/react');
-    
-    // Check various possible export names
-    const H = highlightModule.H || 
-              highlightModule.default?.H || 
-              highlightModule.default ||
+
+    // Check various possible export names with proper typing
+    const H = (highlightModule as any).H ||
+              (highlightModule as any).default?.H ||
+              (highlightModule as any).default ||
               consoleFallback;
     
     if (H && typeof H.init === 'function') {
