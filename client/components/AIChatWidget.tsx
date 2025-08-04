@@ -261,7 +261,7 @@ export default function AIChatWidget() {
       setMessages((prev) => [...prev, aiMessage]);
 
       // Track overall interaction performance
-      trackAIInteraction(currentInput, aiResponse, responseSource, totalDuration);
+      trackAIInteraction(currentInput, aiResponse, responseSource, totalDuration).catch(console.warn);
 
       debugLog('AI Chat Interaction Complete', {
         messageId,
