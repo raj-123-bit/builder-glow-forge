@@ -1,8 +1,12 @@
 import { VercelRequest, VercelResponse } from "@vercel/node";
 
 interface ExternalAIRequest {
-  service: 'openai' | 'anthropic' | 'cohere' | 'huggingface' | 'replicate';
-  task: 'code_generation' | 'architecture_analysis' | 'optimization_suggestions' | 'research_synthesis';
+  service: "openai" | "anthropic" | "cohere" | "huggingface" | "replicate";
+  task:
+    | "code_generation"
+    | "architecture_analysis"
+    | "optimization_suggestions"
+    | "research_synthesis";
   input: {
     prompt?: string;
     architecture?: any;
@@ -58,7 +62,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     if (!service || !task || !input) {
       return res.status(400).json({
         success: false,
-        error: "Missing required parameters: service, task, input"
+        error: "Missing required parameters: service, task, input",
       });
     }
 
@@ -66,124 +70,131 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const startTime = Date.now();
 
     switch (service) {
-      case 'openai':
+      case "openai":
         result = await processOpenAIRequest(task, input, parameters);
         break;
-      case 'anthropic':
+      case "anthropic":
         result = await processAnthropicRequest(task, input, parameters);
         break;
-      case 'cohere':
+      case "cohere":
         result = await processCohereRequest(task, input, parameters);
         break;
-      case 'huggingface':
+      case "huggingface":
         result = await processHuggingFaceRequest(task, input, parameters);
         break;
-      case 'replicate':
+      case "replicate":
         result = await processReplicateRequest(task, input, parameters);
         break;
       default:
         return res.status(400).json({
           success: false,
-          error: "Unsupported service. Supported: openai, anthropic, cohere, huggingface, replicate"
+          error:
+            "Unsupported service. Supported: openai, anthropic, cohere, huggingface, replicate",
         });
     }
 
     result.metadata.processing_time = Date.now() - startTime;
     res.json(result);
-
   } catch (error) {
     console.error("External AI API error:", error);
     res.status(500).json({
       success: false,
       error: "External AI service error",
-      message: "Unable to process request with external AI services"
+      message: "Unable to process request with external AI services",
     });
   }
 }
 
-async function processOpenAIRequest(task: string, input: any, parameters?: any): Promise<ExternalAIResponse> {
+async function processOpenAIRequest(
+  task: string,
+  input: any,
+  parameters?: any,
+): Promise<ExternalAIResponse> {
   // Simulate OpenAI API integration
   const model = parameters?.model || "gpt-4";
   const max_tokens = parameters?.max_tokens || 2000;
-  
+
   switch (task) {
-    case 'code_generation':
+    case "code_generation":
       return {
         success: true,
-        service: 'openai',
+        service: "openai",
         task,
         result: {
           code: generateNeuralArchitectureCode(input.architecture),
-          confidence: 0.92
+          confidence: 0.92,
         },
         metadata: {
           model_used: model,
           tokens_used: 1500,
           processing_time: 0,
-          cost_estimate: 0.03
-        }
+          cost_estimate: 0.03,
+        },
       };
 
-    case 'architecture_analysis':
+    case "architecture_analysis":
       return {
         success: true,
-        service: 'openai',
+        service: "openai",
         task,
         result: {
           analysis: analyzeArchitectureWithAI(input.architecture),
           suggestions: [
             "Consider adding residual connections for better gradient flow",
             "Implement attention mechanisms for improved feature selection",
-            "Use progressive training for faster convergence"
+            "Use progressive training for faster convergence",
           ],
-          confidence: 0.88
+          confidence: 0.88,
         },
         metadata: {
           model_used: model,
           tokens_used: 1200,
           processing_time: 0,
-          cost_estimate: 0.024
-        }
+          cost_estimate: 0.024,
+        },
       };
 
-    case 'optimization_suggestions':
+    case "optimization_suggestions":
       return {
         success: true,
-        service: 'openai',
+        service: "openai",
         task,
         result: {
-          text: generateOptimizationAdvice(input.performance_data, input.constraints),
+          text: generateOptimizationAdvice(
+            input.performance_data,
+            input.constraints,
+          ),
           suggestions: [
             "Apply knowledge distillation to reduce model size",
-            "Use mixed precision training for 2x speedup", 
+            "Use mixed precision training for 2x speedup",
             "Implement dynamic inference for variable complexity",
-            "Consider neural ODE for continuous architectures"
+            "Consider neural ODE for continuous architectures",
           ],
-          confidence: 0.91
+          confidence: 0.91,
         },
         metadata: {
           model_used: model,
           tokens_used: 1800,
           processing_time: 0,
-          cost_estimate: 0.036
-        }
+          cost_estimate: 0.036,
+        },
       };
 
-    case 'research_synthesis':
+    case "research_synthesis":
       return {
         success: true,
-        service: 'openai',
+        service: "openai",
         task,
         result: {
           text: synthesizeResearch(input.prompt),
-          confidence: 0.85
+          confidence: 0.85,
         },
         metadata: {
           model_used: model,
           tokens_used: 2000,
           processing_time: 0,
-          cost_estimate: 0.04
-        }
+          cost_estimate: 0.04,
+        },
       };
 
     default:
@@ -191,103 +202,119 @@ async function processOpenAIRequest(task: string, input: any, parameters?: any):
   }
 }
 
-async function processAnthropicRequest(task: string, input: any, parameters?: any): Promise<ExternalAIResponse> {
+async function processAnthropicRequest(
+  task: string,
+  input: any,
+  parameters?: any,
+): Promise<ExternalAIResponse> {
   const model = parameters?.model || "claude-3-sonnet";
-  
+
   return {
     success: true,
-    service: 'anthropic',
+    service: "anthropic",
     task,
     result: {
       text: `Claude analysis for ${task}: Advanced neural architecture insights with focus on safety and robustness. Considering architectural patterns that promote interpretability and reduced failure modes.`,
       suggestions: [
         "Implement uncertainty quantification in architecture predictions",
         "Use robust training procedures to prevent adversarial vulnerabilities",
-        "Consider interpretable architecture components for production deployment"
+        "Consider interpretable architecture components for production deployment",
       ],
-      confidence: 0.89
+      confidence: 0.89,
     },
     metadata: {
       model_used: model,
       tokens_used: 1600,
       processing_time: 0,
-      cost_estimate: 0.032
-    }
+      cost_estimate: 0.032,
+    },
   };
 }
 
-async function processCohereRequest(task: string, input: any, parameters?: any): Promise<ExternalAIResponse> {
+async function processCohereRequest(
+  task: string,
+  input: any,
+  parameters?: any,
+): Promise<ExternalAIResponse> {
   const model = parameters?.model || "command-r-plus";
-  
+
   return {
     success: true,
-    service: 'cohere',
+    service: "cohere",
     task,
     result: {
       text: `Cohere analysis for ${task}: Focusing on retrieval-augmented generation for neural architecture search. Leveraging large-scale architecture databases for informed suggestions.`,
       suggestions: [
         "Use retrieval-augmented architecture search",
         "Implement semantic similarity for architecture matching",
-        "Apply few-shot learning for rapid architecture adaptation"
+        "Apply few-shot learning for rapid architecture adaptation",
       ],
-      confidence: 0.86
+      confidence: 0.86,
     },
     metadata: {
       model_used: model,
       tokens_used: 1400,
       processing_time: 0,
-      cost_estimate: 0.028
-    }
+      cost_estimate: 0.028,
+    },
   };
 }
 
-async function processHuggingFaceRequest(task: string, input: any, parameters?: any): Promise<ExternalAIResponse> {
+async function processHuggingFaceRequest(
+  task: string,
+  input: any,
+  parameters?: any,
+): Promise<ExternalAIResponse> {
   const model = parameters?.model || "microsoft/DialoGPT-large";
-  
+
   return {
     success: true,
-    service: 'huggingface',
+    service: "huggingface",
     task,
     result: {
       text: `HuggingFace analysis using ${model}: Open-source neural architecture insights with transformer-based analysis. Leveraging community models for specialized NAS tasks.`,
       suggestions: [
         "Explore transformer architectures for your use case",
         "Use pre-trained components to accelerate development",
-        "Implement transfer learning from vision transformers"
+        "Implement transfer learning from vision transformers",
       ],
-      confidence: 0.83
+      confidence: 0.83,
     },
     metadata: {
       model_used: model,
       tokens_used: 1300,
       processing_time: 0,
-      cost_estimate: 0.00 // Often free tier available
-    }
+      cost_estimate: 0.0, // Often free tier available
+    },
   };
 }
 
-async function processReplicateRequest(task: string, input: any, parameters?: any): Promise<ExternalAIResponse> {
+async function processReplicateRequest(
+  task: string,
+  input: any,
+  parameters?: any,
+): Promise<ExternalAIResponse> {
   const model = parameters?.model || "meta/llama-2-70b-chat";
-  
+
   return {
     success: true,
-    service: 'replicate',
+    service: "replicate",
     task,
     result: {
       text: `Replicate analysis using ${model}: Cloud-based neural architecture optimization with scalable inference. Focus on practical deployment and real-world performance.`,
       suggestions: [
         "Use cloud-native architecture optimization",
         "Implement distributed training strategies",
-        "Consider edge deployment optimizations"
+        "Consider edge deployment optimizations",
       ],
-      confidence: 0.87
+      confidence: 0.87,
     },
     metadata: {
       model_used: model,
       tokens_used: 1500,
       processing_time: 0,
-      cost_estimate: 0.025
-    }
+      cost_estimate: 0.025,
+    },
   };
 }
 
@@ -369,24 +396,27 @@ function analyzeArchitectureWithAI(architecture: any): any {
     efficiency_rating: "High",
     bottlenecks: [
       "Dense layers in final stages may cause memory issues",
-      "Lack of skip connections limits gradient flow"
+      "Lack of skip connections limits gradient flow",
     ],
     strengths: [
       "Well-balanced depth and width",
       "Appropriate use of batch normalization",
-      "Efficient convolution patterns"
+      "Efficient convolution patterns",
     ],
     optimization_potential: 0.85,
     deployment_readiness: "Good",
     recommended_improvements: [
       "Add residual connections",
       "Implement progressive training",
-      "Consider attention mechanisms"
-    ]
+      "Consider attention mechanisms",
+    ],
   };
 }
 
-function generateOptimizationAdvice(performanceData: any, constraints: any): string {
+function generateOptimizationAdvice(
+  performanceData: any,
+  constraints: any,
+): string {
   return `🚀 **AI-Powered Optimization Recommendations by Shaurya**
 
 Based on your performance data and constraints, here are advanced optimization strategies:

@@ -20,7 +20,7 @@ interface EnhancedChatRequest {
 }
 
 interface ArchitectureInsight {
-  type: 'optimization' | 'analysis' | 'suggestion' | 'warning';
+  type: "optimization" | "analysis" | "suggestion" | "warning";
   title: string;
   description: string;
   confidence: number;
@@ -30,7 +30,10 @@ interface ArchitectureInsight {
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   // Handle CORS
   res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+  res.setHeader(
+    "Access-Control-Allow-Methods",
+    "GET, POST, PUT, DELETE, OPTIONS",
+  );
   res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
 
   if (req.method === "OPTIONS") {
@@ -48,24 +51,28 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       model = "shaurya-ai-enhanced",
       max_tokens = 800,
       temperature = 0.7,
-      context
+      context,
     } = req.body as EnhancedChatRequest;
 
     if (!messages || !Array.isArray(messages)) {
       return res.status(400).json({
-        error: "Invalid request: messages array is required"
+        error: "Invalid request: messages array is required",
       });
     }
 
     const lastMessage = messages[messages.length - 1];
     if (!lastMessage || lastMessage.role !== "user") {
       return res.status(400).json({
-        error: "Invalid request: last message must be from user"
+        error: "Invalid request: last message must be from user",
       });
     }
 
     // Generate enhanced AI response with NAS expertise
-    const aiResponse = await generateEnhancedShauryaResponse(lastMessage.content, messages, context);
+    const aiResponse = await generateEnhancedShauryaResponse(
+      lastMessage.content,
+      messages,
+      context,
+    );
 
     res.json({
       content: aiResponse.text,
@@ -73,18 +80,20 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       insights: aiResponse.insights,
       suggestions: aiResponse.suggestions,
       visualizations: aiResponse.visualizations,
-      choices: [{
-        message: {
-          content: aiResponse.text,
-          insights: aiResponse.insights
-        }
-      }]
+      choices: [
+        {
+          message: {
+            content: aiResponse.text,
+            insights: aiResponse.insights,
+          },
+        },
+      ],
     });
   } catch (error) {
     console.error("Enhanced Shaurya AI error:", error);
     res.status(500).json({
       error: "Internal server error",
-      message: "Enhanced Shaurya AI service temporarily unavailable"
+      message: "Enhanced Shaurya AI service temporarily unavailable",
     });
   }
 }
@@ -92,7 +101,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 async function generateEnhancedShauryaResponse(
   userInput: string,
   messageHistory: ChatMessage[],
-  context?: any
+  context?: any,
 ) {
   const input = userInput.toLowerCase();
   const insights: ArchitectureInsight[] = [];
@@ -106,9 +115,10 @@ async function generateEnhancedShauryaResponse(
     performanceAnalysis: /accura|loss|metric|perform|evaluat|test|valid/,
     hardwareConstraints: /mobile|edge|gpu|cpu|memor|latenc|power|deploy/,
     searchStrategy: /search|nas|automl|evolution|reinforc|bayesian|gradient/,
-    architectureDesign: /layer|block|resnet|efficient|mobile|convol|dense|transform/,
+    architectureDesign:
+      /layer|block|resnet|efficient|mobile|convol|dense|transform/,
     troubleshooting: /error|fail|problem|issue|debug|fix|help|stuck/,
-    datasetQuestions: /dataset|data|imagenet|cifar|custom|train|augment/
+    datasetQuestions: /dataset|data|imagenet|cifar|custom|train|augment/,
   };
 
   let responseText = "";
@@ -138,11 +148,12 @@ async function generateEnhancedShauryaResponse(
     case "optimization":
       responseText = generateOptimizationResponse(input, context);
       insights.push({
-        type: 'optimization',
-        title: 'Architecture Optimization Opportunities',
-        description: 'Based on your query, I can help identify bottlenecks and suggest improvements',
+        type: "optimization",
+        title: "Architecture Optimization Opportunities",
+        description:
+          "Based on your query, I can help identify bottlenecks and suggest improvements",
         confidence: 0.9,
-        actionable: true
+        actionable: true,
       });
       suggestions.push("Run architecture profiling to identify bottlenecks");
       suggestions.push("Consider knowledge distillation for model compression");
@@ -152,43 +163,46 @@ async function generateEnhancedShauryaResponse(
     case "comparison":
       responseText = generateComparisonResponse(input, context);
       insights.push({
-        type: 'analysis',
-        title: 'Multi-Objective Analysis',
-        description: 'Comparing architectures requires balancing accuracy, efficiency, and constraints',
+        type: "analysis",
+        title: "Multi-Objective Analysis",
+        description:
+          "Comparing architectures requires balancing accuracy, efficiency, and constraints",
         confidence: 0.85,
-        actionable: true
+        actionable: true,
       });
       visualizations.push({
-        type: 'pareto_front',
-        title: 'Accuracy vs Efficiency Trade-off',
-        description: 'Pareto frontier showing optimal trade-offs'
+        type: "pareto_front",
+        title: "Accuracy vs Efficiency Trade-off",
+        description: "Pareto frontier showing optimal trade-offs",
       });
       break;
 
     case "performance":
       responseText = generatePerformanceResponse(input, context);
       insights.push({
-        type: 'analysis',
-        title: 'Performance Metrics Analysis',
-        description: 'Understanding performance requires comprehensive evaluation across multiple metrics',
+        type: "analysis",
+        title: "Performance Metrics Analysis",
+        description:
+          "Understanding performance requires comprehensive evaluation across multiple metrics",
         confidence: 0.88,
-        actionable: true
+        actionable: true,
       });
       visualizations.push({
-        type: 'metrics_dashboard',
-        title: 'Performance Dashboard',
-        description: 'Comprehensive view of all performance metrics'
+        type: "metrics_dashboard",
+        title: "Performance Dashboard",
+        description: "Comprehensive view of all performance metrics",
       });
       break;
 
     case "hardware":
       responseText = generateHardwareResponse(input, context);
       insights.push({
-        type: 'optimization',
-        title: 'Hardware-Aware Optimization',
-        description: 'Optimizing for specific hardware constraints is crucial for deployment',
+        type: "optimization",
+        title: "Hardware-Aware Optimization",
+        description:
+          "Optimizing for specific hardware constraints is crucial for deployment",
         confidence: 0.92,
-        actionable: true
+        actionable: true,
       });
       suggestions.push("Profile on target hardware");
       suggestions.push("Use hardware-specific optimizations");
@@ -197,44 +211,45 @@ async function generateEnhancedShauryaResponse(
     case "search":
       responseText = generateSearchResponse(input, context);
       insights.push({
-        type: 'suggestion',
-        title: 'Search Strategy Selection',
-        description: 'Different search strategies excel in different scenarios',
+        type: "suggestion",
+        title: "Search Strategy Selection",
+        description: "Different search strategies excel in different scenarios",
         confidence: 0.86,
-        actionable: true
+        actionable: true,
       });
       break;
 
     case "design":
       responseText = generateDesignResponse(input, context);
       insights.push({
-        type: 'suggestion',
-        title: 'Architecture Design Principles',
-        description: 'Following proven design patterns improves success rate',
+        type: "suggestion",
+        title: "Architecture Design Principles",
+        description: "Following proven design patterns improves success rate",
         confidence: 0.87,
-        actionable: true
+        actionable: true,
       });
       break;
 
     case "troubleshooting":
       responseText = generateTroubleshootingResponse(input, context);
       insights.push({
-        type: 'warning',
-        title: 'Common Issues Detected',
-        description: 'Let me help diagnose and fix common NAS problems',
+        type: "warning",
+        title: "Common Issues Detected",
+        description: "Let me help diagnose and fix common NAS problems",
         confidence: 0.83,
-        actionable: true
+        actionable: true,
       });
       break;
 
     case "dataset":
       responseText = generateDatasetResponse(input, context);
       insights.push({
-        type: 'analysis',
-        title: 'Dataset Considerations',
-        description: 'Dataset choice significantly impacts architecture search results',
+        type: "analysis",
+        title: "Dataset Considerations",
+        description:
+          "Dataset choice significantly impacts architecture search results",
         confidence: 0.89,
-        actionable: true
+        actionable: true,
       });
       break;
 
@@ -246,23 +261,23 @@ async function generateEnhancedShauryaResponse(
   // Add context-aware insights if experiment data is available
   if (context?.currentExperiment) {
     insights.push({
-      type: 'analysis',
-      title: 'Current Experiment Status',
+      type: "analysis",
+      title: "Current Experiment Status",
       description: `Analyzing experiment: ${context.currentExperiment}`,
       confidence: 0.95,
-      actionable: true
+      actionable: true,
     });
   }
 
   // Add universal suggestions
   suggestions.push("Explore the architecture leaderboard for inspiration");
   suggestions.push("Use the performance visualization tools");
-  
+
   return {
     text: responseText,
     insights,
     suggestions: [...new Set(suggestions)], // Remove duplicates
-    visualizations
+    visualizations,
   };
 }
 
@@ -635,8 +650,16 @@ Dataset choice and preparation are crucial for successful neural architecture se
 Which dataset are you working with? I can provide specific optimization strategies!`;
 }
 
-function generateGeneralResponse(input: string, messageHistory: ChatMessage[], context?: any): string {
-  if (input.includes("hello") || input.includes("hi") || input.includes("hey")) {
+function generateGeneralResponse(
+  input: string,
+  messageHistory: ChatMessage[],
+  context?: any,
+): string {
+  if (
+    input.includes("hello") ||
+    input.includes("hi") ||
+    input.includes("hey")
+  ) {
     return `👋 **Hello! I'm Shaurya, your advanced AI assistant for Neural Architecture Search**
 
 Built by Shaurya Upadhyay, I'm here to help you master every aspect of NAS! 

@@ -1,7 +1,12 @@
 import { VercelRequest, VercelResponse } from "@vercel/node";
 
 interface OptimizationRequest {
-  algorithm: 'evolutionary' | 'bayesian' | 'gradient' | 'reinforcement' | 'random';
+  algorithm:
+    | "evolutionary"
+    | "bayesian"
+    | "gradient"
+    | "reinforcement"
+    | "random";
   searchSpace: {
     layers: string[];
     activations: string[];
@@ -34,7 +39,7 @@ interface OptimizationResponse {
   success: boolean;
   algorithm: string;
   searchId: string;
-  status: 'initialized' | 'running' | 'completed' | 'failed';
+  status: "initialized" | "running" | "completed" | "failed";
   progress?: {
     evaluations: number;
     bestScore: number;
@@ -50,7 +55,10 @@ interface OptimizationResponse {
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   // Handle CORS
   res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+  res.setHeader(
+    "Access-Control-Allow-Methods",
+    "GET, POST, PUT, DELETE, OPTIONS",
+  );
   res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
 
   if (req.method === "OPTIONS") {
@@ -65,9 +73,17 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       case "POST":
         return await handleStartOptimization(req, res);
       case "GET":
-        return await handleGetOptimizationStatus(req, res, query.searchId as string);
+        return await handleGetOptimizationStatus(
+          req,
+          res,
+          query.searchId as string,
+        );
       case "PUT":
-        return await handleUpdateOptimization(req, res, query.searchId as string);
+        return await handleUpdateOptimization(
+          req,
+          res,
+          query.searchId as string,
+        );
       case "DELETE":
         return await handleStopOptimization(req, res, query.searchId as string);
       default:
@@ -78,25 +94,30 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     res.status(500).json({
       success: false,
       error: "Internal server error",
-      message: "Neural Architecture Optimization service temporarily unavailable"
+      message:
+        "Neural Architecture Optimization service temporarily unavailable",
     });
   }
 }
 
-async function handleStartOptimization(req: VercelRequest, res: VercelResponse) {
+async function handleStartOptimization(
+  req: VercelRequest,
+  res: VercelResponse,
+) {
   const {
     algorithm,
     searchSpace,
     constraints,
     objectives,
     budget,
-    currentBest
+    currentBest,
   } = req.body as OptimizationRequest;
 
   if (!algorithm || !searchSpace || !objectives || !budget) {
     return res.status(400).json({
       success: false,
-      error: "Missing required parameters: algorithm, searchSpace, objectives, budget"
+      error:
+        "Missing required parameters: algorithm, searchSpace, objectives, budget",
     });
   }
 
@@ -107,36 +128,72 @@ async function handleStartOptimization(req: VercelRequest, res: VercelResponse) 
   let optimizationResult: OptimizationResponse;
 
   switch (algorithm) {
-    case 'evolutionary':
-      optimizationResult = await initializeEvolutionarySearch(searchId, searchSpace, constraints, objectives, budget, currentBest);
+    case "evolutionary":
+      optimizationResult = await initializeEvolutionarySearch(
+        searchId,
+        searchSpace,
+        constraints,
+        objectives,
+        budget,
+        currentBest,
+      );
       break;
-    case 'bayesian':
-      optimizationResult = await initializeBayesianOptimization(searchId, searchSpace, constraints, objectives, budget);
+    case "bayesian":
+      optimizationResult = await initializeBayesianOptimization(
+        searchId,
+        searchSpace,
+        constraints,
+        objectives,
+        budget,
+      );
       break;
-    case 'gradient':
-      optimizationResult = await initializeGradientBasedSearch(searchId, searchSpace, constraints, objectives, budget);
+    case "gradient":
+      optimizationResult = await initializeGradientBasedSearch(
+        searchId,
+        searchSpace,
+        constraints,
+        objectives,
+        budget,
+      );
       break;
-    case 'reinforcement':
-      optimizationResult = await initializeReinforcementLearning(searchId, searchSpace, constraints, objectives, budget);
+    case "reinforcement":
+      optimizationResult = await initializeReinforcementLearning(
+        searchId,
+        searchSpace,
+        constraints,
+        objectives,
+        budget,
+      );
       break;
-    case 'random':
-      optimizationResult = await initializeRandomSearch(searchId, searchSpace, constraints, objectives, budget);
+    case "random":
+      optimizationResult = await initializeRandomSearch(
+        searchId,
+        searchSpace,
+        constraints,
+        objectives,
+        budget,
+      );
       break;
     default:
       return res.status(400).json({
         success: false,
-        error: "Unsupported algorithm. Supported: evolutionary, bayesian, gradient, reinforcement, random"
+        error:
+          "Unsupported algorithm. Supported: evolutionary, bayesian, gradient, reinforcement, random",
       });
   }
 
   res.json(optimizationResult);
 }
 
-async function handleGetOptimizationStatus(req: VercelRequest, res: VercelResponse, searchId: string) {
+async function handleGetOptimizationStatus(
+  req: VercelRequest,
+  res: VercelResponse,
+  searchId: string,
+) {
   if (!searchId) {
     return res.status(400).json({
       success: false,
-      error: "Search ID is required"
+      error: "Search ID is required",
     });
   }
 
@@ -145,13 +202,17 @@ async function handleGetOptimizationStatus(req: VercelRequest, res: VercelRespon
   res.json(status);
 }
 
-async function handleUpdateOptimization(req: VercelRequest, res: VercelResponse, searchId: string) {
+async function handleUpdateOptimization(
+  req: VercelRequest,
+  res: VercelResponse,
+  searchId: string,
+) {
   const { action, parameters } = req.body;
-  
+
   if (!searchId || !action) {
     return res.status(400).json({
       success: false,
-      error: "Search ID and action are required"
+      error: "Search ID and action are required",
     });
   }
 
@@ -159,11 +220,15 @@ async function handleUpdateOptimization(req: VercelRequest, res: VercelResponse,
   res.json(result);
 }
 
-async function handleStopOptimization(req: VercelRequest, res: VercelResponse, searchId: string) {
+async function handleStopOptimization(
+  req: VercelRequest,
+  res: VercelResponse,
+  searchId: string,
+) {
   if (!searchId) {
     return res.status(400).json({
       success: false,
-      error: "Search ID is required"
+      error: "Search ID is required",
     });
   }
 
@@ -178,32 +243,36 @@ async function initializeEvolutionarySearch(
   constraints: any,
   objectives: any,
   budget: any,
-  currentBest?: any[]
+  currentBest?: any[],
 ): Promise<OptimizationResponse> {
   const populationSize = Math.min(budget.parallel * 4, 50);
   const generations = Math.floor(budget.maxEvaluations / populationSize);
 
-  const candidates = generateInitialPopulation(populationSize, searchSpace, currentBest);
-  
+  const candidates = generateInitialPopulation(
+    populationSize,
+    searchSpace,
+    currentBest,
+  );
+
   return {
     success: true,
-    algorithm: 'evolutionary',
+    algorithm: "evolutionary",
     searchId,
-    status: 'initialized',
+    status: "initialized",
     progress: {
       evaluations: 0,
       bestScore: currentBest?.[0]?.score || 0,
       convergence: 0,
       timeElapsed: 0,
-      estimatedRemaining: budget.maxTime
+      estimatedRemaining: budget.maxTime,
     },
     candidates: candidates.slice(0, 5), // Return top 5 initial candidates
     insights: [
       `Initialized evolutionary search with population size ${populationSize}`,
       `Planning ${generations} generations with ${budget.maxEvaluations} total evaluations`,
       "Using tournament selection and uniform crossover",
-      "Applying adaptive mutation rates based on convergence"
-    ]
+      "Applying adaptive mutation rates based on convergence",
+    ],
   };
 }
 
@@ -213,29 +282,29 @@ async function initializeBayesianOptimization(
   searchSpace: any,
   constraints: any,
   objectives: any,
-  budget: any
+  budget: any,
 ): Promise<OptimizationResponse> {
   const initialSamples = Math.min(budget.parallel * 2, 20);
-  
+
   return {
     success: true,
-    algorithm: 'bayesian',
+    algorithm: "bayesian",
     searchId,
-    status: 'initialized',
+    status: "initialized",
     progress: {
       evaluations: 0,
       bestScore: 0,
       convergence: 0,
       timeElapsed: 0,
-      estimatedRemaining: budget.maxTime
+      estimatedRemaining: budget.maxTime,
     },
     candidates: generateInitialPopulation(initialSamples, searchSpace),
     insights: [
       `Initialized Bayesian optimization with ${initialSamples} initial samples`,
       "Using Gaussian Process surrogate model",
       "Applying Expected Improvement acquisition function",
-      "Balancing exploration vs exploitation automatically"
-    ]
+      "Balancing exploration vs exploitation automatically",
+    ],
   };
 }
 
@@ -245,27 +314,27 @@ async function initializeGradientBasedSearch(
   searchSpace: any,
   constraints: any,
   objectives: any,
-  budget: any
+  budget: any,
 ): Promise<OptimizationResponse> {
   return {
     success: true,
-    algorithm: 'gradient',
+    algorithm: "gradient",
     searchId,
-    status: 'initialized',
+    status: "initialized",
     progress: {
       evaluations: 0,
       bestScore: 0,
       convergence: 0,
       timeElapsed: 0,
-      estimatedRemaining: budget.maxTime * 0.3 // Gradient methods are typically faster
+      estimatedRemaining: budget.maxTime * 0.3, // Gradient methods are typically faster
     },
     candidates: generateInitialPopulation(budget.parallel, searchSpace),
     insights: [
       "Initialized DARTS-style differentiable architecture search",
       "Using continuous relaxation of discrete architecture choices",
       "Applying progressive shrinking for architecture selection",
-      "Memory efficient implementation with gradient checkpointing"
-    ]
+      "Memory efficient implementation with gradient checkpointing",
+    ],
   };
 }
 
@@ -275,27 +344,27 @@ async function initializeReinforcementLearning(
   searchSpace: any,
   constraints: any,
   objectives: any,
-  budget: any
+  budget: any,
 ): Promise<OptimizationResponse> {
   return {
     success: true,
-    algorithm: 'reinforcement',
+    algorithm: "reinforcement",
     searchId,
-    status: 'initialized',
+    status: "initialized",
     progress: {
       evaluations: 0,
       bestScore: 0,
       convergence: 0,
       timeElapsed: 0,
-      estimatedRemaining: budget.maxTime
+      estimatedRemaining: budget.maxTime,
     },
     candidates: [],
     insights: [
       "Initialized reinforcement learning controller",
       "Training agent to generate high-performance architectures",
       "Using accuracy as reward signal with efficiency penalties",
-      "Implementing progressive training curriculum"
-    ]
+      "Implementing progressive training curriculum",
+    ],
   };
 }
 
@@ -305,57 +374,68 @@ async function initializeRandomSearch(
   searchSpace: any,
   constraints: any,
   objectives: any,
-  budget: any
+  budget: any,
 ): Promise<OptimizationResponse> {
-  const candidates = generateInitialPopulation(budget.parallel * 2, searchSpace);
-  
+  const candidates = generateInitialPopulation(
+    budget.parallel * 2,
+    searchSpace,
+  );
+
   return {
     success: true,
-    algorithm: 'random',
+    algorithm: "random",
     searchId,
-    status: 'initialized',
+    status: "initialized",
     progress: {
       evaluations: 0,
       bestScore: 0,
       convergence: 0,
       timeElapsed: 0,
-      estimatedRemaining: budget.maxTime * 0.5 // Random search typically faster per evaluation
+      estimatedRemaining: budget.maxTime * 0.5, // Random search typically faster per evaluation
     },
     candidates: candidates.slice(0, 5),
     insights: [
       `Generated ${candidates.length} random architectures for evaluation`,
       "Random search provides strong baseline for comparison",
       "Efficient parallelization across available resources",
-      "No convergence assumptions - explores full search space"
-    ]
+      "No convergence assumptions - explores full search space",
+    ],
   };
 }
 
-function generateInitialPopulation(size: number, searchSpace: any, seeds?: any[]): any[] {
+function generateInitialPopulation(
+  size: number,
+  searchSpace: any,
+  seeds?: any[],
+): any[] {
   const population = [];
-  
+
   // Include seeds if provided
   if (seeds) {
     population.push(...seeds.slice(0, Math.floor(size / 2)));
   }
-  
+
   // Generate random architectures to fill population
   while (population.length < size) {
     const architecture = {
       id: `arch_${Date.now()}_${Math.random().toString(36).substr(2, 6)}`,
       layers: generateRandomLayers(searchSpace),
-      optimizer: randomChoice(searchSpace.optimizers || ['adam', 'sgd', 'rmsprop']),
-      learningRate: randomChoice(searchSpace.learningRates || [0.001, 0.01, 0.1]),
+      optimizer: randomChoice(
+        searchSpace.optimizers || ["adam", "sgd", "rmsprop"],
+      ),
+      learningRate: randomChoice(
+        searchSpace.learningRates || [0.001, 0.01, 0.1],
+      ),
       batchSize: randomChoice(searchSpace.batchSizes || [16, 32, 64, 128]),
       score: Math.random() * 0.3 + 0.6, // Random baseline score 0.6-0.9
       estimatedParams: Math.floor(Math.random() * 20000000) + 1000000,
       estimatedLatency: Math.random() * 50 + 10,
-      confidence: 0.5
+      confidence: 0.5,
     };
-    
+
     population.push(architecture);
   }
-  
+
   return population.sort((a, b) => b.score - a.score);
 }
 
@@ -363,38 +443,43 @@ function generateRandomLayers(searchSpace: any): any[] {
   const layers = [];
   const numLayers = Math.floor(Math.random() * 15) + 5; // 5-20 layers
   const availableLayers = searchSpace.layers || [
-    'conv2d', 'depthwise_conv', 'dense', 'batch_norm', 'dropout', 'pooling'
+    "conv2d",
+    "depthwise_conv",
+    "dense",
+    "batch_norm",
+    "dropout",
+    "pooling",
   ];
-  
+
   for (let i = 0; i < numLayers; i++) {
     const layerType = randomChoice(availableLayers);
     const layer: any = { type: layerType };
-    
+
     switch (layerType) {
-      case 'conv2d':
+      case "conv2d":
         layer.filters = randomChoice([16, 32, 64, 128, 256]);
         layer.kernel_size = randomChoice([1, 3, 5, 7]);
-        layer.activation = randomChoice(['relu', 'swish', 'gelu']);
+        layer.activation = randomChoice(["relu", "swish", "gelu"]);
         break;
-      case 'depthwise_conv':
+      case "depthwise_conv":
         layer.kernel_size = randomChoice([3, 5, 7]);
-        layer.activation = randomChoice(['relu', 'swish']);
+        layer.activation = randomChoice(["relu", "swish"]);
         break;
-      case 'dense':
+      case "dense":
         layer.units = randomChoice([64, 128, 256, 512, 1024]);
-        layer.activation = randomChoice(['relu', 'swish', 'gelu']);
+        layer.activation = randomChoice(["relu", "swish", "gelu"]);
         break;
-      case 'dropout':
+      case "dropout":
         layer.rate = Math.random() * 0.5 + 0.1; // 0.1-0.6
         break;
-      case 'batch_norm':
+      case "batch_norm":
         layer.momentum = Math.random() * 0.1 + 0.9; // 0.9-1.0
         break;
     }
-    
+
     layers.push(layer);
   }
-  
+
   return layers;
 }
 
@@ -402,74 +487,86 @@ function randomChoice<T>(array: T[]): T {
   return array[Math.floor(Math.random() * array.length)];
 }
 
-async function getOptimizationStatus(searchId: string): Promise<OptimizationResponse> {
+async function getOptimizationStatus(
+  searchId: string,
+): Promise<OptimizationResponse> {
   // Simulate progress tracking
   const elapsed = Math.random() * 2; // 0-2 hours
   const totalEvaluations = Math.floor(Math.random() * 500) + 100;
   const bestScore = Math.random() * 0.15 + 0.8; // 0.8-0.95
-  
+
   return {
     success: true,
-    algorithm: 'evolutionary', // Would be stored in real implementation
+    algorithm: "evolutionary", // Would be stored in real implementation
     searchId,
-    status: 'running',
+    status: "running",
     progress: {
       evaluations: totalEvaluations,
       bestScore,
       convergence: Math.min(totalEvaluations / 1000, 0.95),
       timeElapsed: elapsed,
-      estimatedRemaining: Math.max(0, 4 - elapsed)
+      estimatedRemaining: Math.max(0, 4 - elapsed),
     },
     candidates: generateInitialPopulation(5, {}), // Top 5 current candidates
     insights: [
       `Found ${totalEvaluations} architectures so far`,
       `Best architecture achieves ${(bestScore * 100).toFixed(1)}% efficiency score`,
       "Search is converging towards optimal solutions",
-      "Consider expanding search space if plateau is reached"
-    ]
+      "Consider expanding search space if plateau is reached",
+    ],
   };
 }
 
-async function updateOptimization(searchId: string, action: string, parameters: any): Promise<OptimizationResponse> {
-  const actions = ['pause', 'resume', 'adjust_budget', 'expand_search_space'];
-  
+async function updateOptimization(
+  searchId: string,
+  action: string,
+  parameters: any,
+): Promise<OptimizationResponse> {
+  const actions = ["pause", "resume", "adjust_budget", "expand_search_space"];
+
   if (!actions.includes(action)) {
     return {
       success: false,
-      algorithm: '',
+      algorithm: "",
       searchId,
-      status: 'failed',
-      error: `Invalid action: ${action}. Supported actions: ${actions.join(', ')}`
+      status: "failed",
+      error: `Invalid action: ${action}. Supported actions: ${actions.join(", ")}`,
     };
   }
-  
+
   return {
     success: true,
-    algorithm: 'evolutionary',
+    algorithm: "evolutionary",
     searchId,
-    status: 'running',
-    insights: [`Successfully applied action: ${action}`, "Search parameters updated", "Continuing optimization with new settings"]
+    status: "running",
+    insights: [
+      `Successfully applied action: ${action}`,
+      "Search parameters updated",
+      "Continuing optimization with new settings",
+    ],
   };
 }
 
-async function stopOptimization(searchId: string): Promise<OptimizationResponse> {
+async function stopOptimization(
+  searchId: string,
+): Promise<OptimizationResponse> {
   return {
     success: true,
-    algorithm: 'evolutionary',
+    algorithm: "evolutionary",
     searchId,
-    status: 'completed',
+    status: "completed",
     progress: {
       evaluations: 1000,
       bestScore: 0.89,
       convergence: 0.95,
       timeElapsed: 3.5,
-      estimatedRemaining: 0
+      estimatedRemaining: 0,
     },
     insights: [
       "Optimization stopped successfully",
       "Final results saved to database",
       "Best architectures ready for deployment",
-      "Performance analysis available in dashboard"
-    ]
+      "Performance analysis available in dashboard",
+    ],
   };
 }
