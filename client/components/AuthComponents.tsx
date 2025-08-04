@@ -101,6 +101,32 @@ export function AuthModal({ onSuccess }: AuthFormProps) {
     setLoading(false);
   };
 
+  const handleGoogleSignIn = async () => {
+    setLoading(true);
+    setMessage(null);
+
+    const { error } = await signInWithGoogle();
+
+    if (error) {
+      setMessage({ type: "error", text: error.message });
+      setLoading(false);
+    }
+    // Note: Don't set loading to false here as OAuth redirects the page
+  };
+
+  const handleGitHubSignIn = async () => {
+    setLoading(true);
+    setMessage(null);
+
+    const { error } = await signInWithGitHub();
+
+    if (error) {
+      setMessage({ type: "error", text: error.message });
+      setLoading(false);
+    }
+    // Note: Don't set loading to false here as OAuth redirects the page
+  };
+
   const resetForm = () => {
     setEmail("");
     setPassword("");
