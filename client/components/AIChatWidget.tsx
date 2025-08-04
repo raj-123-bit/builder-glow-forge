@@ -180,7 +180,7 @@ export default function AIChatWidget() {
     }
 
     if (input.includes("help") || input.includes("how")) {
-      return "I'm Shaurya, and I'm here to help! I can assist with:\n• Search configuration and parameter tuning\n• Architecture analysis and comparison\n• Performance optimization strategies\n• Result interpretation\n• Best practices for NAS\n\nWhat would you like to explore?";
+      return "I'm Shaurya, and I'm here to help! I can assist with:\n• Search configuration and parameter tuning\n• Architecture analysis and comparison\n• Performance optimization strategies\n• Result interpretation\n�� Best practices for NAS\n\nWhat would you like to explore?";
     }
 
     return "That's an interesting question about neural architecture search! I'm Shaurya, and I'd love to help. Could you provide more details about what you're trying to achieve? I can help with search strategies, architecture analysis, or performance optimization.";
@@ -197,7 +197,7 @@ export default function AIChatWidget() {
       messageLength: inputValue.length,
       provider: aiConfig.provider,
       enabled: aiConfig.enabled
-    });
+    }).catch(console.warn);
 
     const userMessage: Message = {
       id: messageId,
