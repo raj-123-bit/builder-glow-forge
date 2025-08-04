@@ -97,6 +97,7 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=${supabaseKey}`;
           <Label htmlFor="supabase-url">Supabase Project URL</Label>
           <Input
             id="supabase-url"
+            data-testid="supabase-url"
             value={supabaseUrl}
             onChange={(e) => setSupabaseUrl(e.target.value)}
             placeholder="https://your-project-id.supabase.co"
