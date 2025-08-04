@@ -1,4 +1,4 @@
-import { H } from 'highlight.run';
+import { H } from '@highlight-run/react';
 
 // Highlight.io configuration for Neural Architecture Search debugging
 // Built by Shaurya Upadhyay
