@@ -20,22 +20,35 @@ export default function DatabaseStatus() {
       setConnectionStatus("checking");
       setError(null);
 
+      console.log("Checking Supabase configuration...");
+      console.log("VITE_SUPABASE_URL:", import.meta.env.VITE_SUPABASE_URL ? "Set" : "Not set");
+      console.log("VITE_SUPABASE_ANON_KEY:", import.meta.env.VITE_SUPABASE_ANON_KEY ? "Set" : "Not set");
+
       // Check if Supabase is configured
       if (!import.meta.env.VITE_SUPABASE_URL || !import.meta.env.VITE_SUPABASE_ANON_KEY) {
         throw new Error("Supabase environment variables not configured. Please add VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY to your .env.local file");
       }
+
+      console.log("Testing Supabase connection...");
 
       // Test basic Supabase connection
       const { data, error: connectionError } = await supabase
         .from("search_experiments")
         .select("count", { count: "exact", head: true });
 
+      console.log("Supabase response:", { data, error: connectionError });
+
       if (connectionError) {
+        console.error("Supabase connection error:", connectionError);
         throw connectionError;
       }
 
+      console.log("Getting global stats...");
+
       // Get global stats
       const globalStats = await NeuralArchSearchDB.getGlobalStats();
+      console.log("Global stats:", globalStats);
+
       setStats(globalStats);
       setConnectionStatus("connected");
     } catch (err) {
