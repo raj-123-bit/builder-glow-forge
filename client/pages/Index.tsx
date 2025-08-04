@@ -31,6 +31,7 @@ import {
   FlaskConical,
   Menu,
 } from "lucide-react";
+import DatabaseStatus from "@/components/DatabaseStatus";
 
 interface Architecture {
   id: string;
