@@ -32,6 +32,7 @@ import {
   Menu,
 } from "lucide-react";
 import DatabaseStatus from "@/components/DatabaseStatus";
+import SupabaseSetupInstructions from "@/components/SupabaseSetupInstructions";
 
 interface Architecture {
   id: string;
