@@ -299,6 +299,11 @@ export default function Index() {
               <SimpleSupabaseTest />
             </div>
 
+            {/* OAuth Setup Guide */}
+            <div className="mt-6">
+              <OAuthSetupGuide />
+            </div>
+
             {/* Database Status */}
             <div className="mt-6">
               <DatabaseStatus />
