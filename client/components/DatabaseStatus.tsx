@@ -34,20 +34,35 @@ export default function DatabaseStatus() {
 
       // First try a simple connection test
       try {
-        const { error: healthError } = await supabase
+        console.log("Testing basic table access...");
+        const response = await supabase
           .from("search_experiments")
           .select("id")
           .limit(1);
 
-        if (healthError && healthError.code === "42P01") {
-          // Table doesn't exist - need to run setup
-          throw new Error("Database tables not found. Please run the setup script in Supabase SQL Editor");
-        } else if (healthError) {
-          console.error("Supabase connection error:", healthError);
-          throw healthError;
+        console.log("Supabase table response:", response);
+
+        const { data, error: healthError } = response;
+
+        if (healthError) {
+          console.log("Health error details:", {
+            code: healthError.code,
+            message: healthError.message,
+            details: healthError.details,
+            hint: healthError.hint
+          });
+
+          if (healthError.code === "42P01") {
+            // Table doesn't exist - need to run setup
+            throw new Error("Database tables not found. Please run the setup script in Supabase SQL Editor");
+          } else {
+            throw healthError;
+          }
         }
+
+        console.log("Basic connection test passed, data:", data);
       } catch (testError) {
-        console.error("Connection test failed:", testError);
+        logError("Connection Test", testError);
         throw testError;
       }
 
