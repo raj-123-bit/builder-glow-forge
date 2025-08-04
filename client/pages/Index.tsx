@@ -288,6 +288,11 @@ export default function Index() {
             <div className="mt-6">
               <DatabaseStatus />
             </div>
+
+            {/* Setup Instructions */}
+            <div className="mt-6">
+              <SupabaseSetupInstructions />
+            </div>
           </div>
 
           {/* Results & Visualization */}
