@@ -18,6 +18,8 @@ import {
   AlertCircle,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { trackAIInteraction, trackNASError, debugLog } from "@/lib/highlight";
+import { ComponentErrorBoundary } from "./ErrorBoundaryWithHighlight";
 import AIConfigSettings from "./AIConfigSettings";
 
 interface Message {
