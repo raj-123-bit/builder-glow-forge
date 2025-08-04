@@ -31,16 +31,23 @@ export default function DatabaseStatus() {
 
       console.log("Testing Supabase connection...");
 
-      // Test basic Supabase connection
-      const { data, error: connectionError } = await supabase
-        .from("search_experiments")
-        .select("count", { count: "exact", head: true });
+      // First try a simple connection test
+      try {
+        const { error: healthError } = await supabase
+          .from("search_experiments")
+          .select("id")
+          .limit(1);
 
-      console.log("Supabase response:", { data, error: connectionError });
-
-      if (connectionError) {
-        console.error("Supabase connection error:", connectionError);
-        throw connectionError;
+        if (healthError && healthError.code === "42P01") {
+          // Table doesn't exist - need to run setup
+          throw new Error("Database tables not found. Please run the setup script in Supabase SQL Editor");
+        } else if (healthError) {
+          console.error("Supabase connection error:", healthError);
+          throw healthError;
+        }
+      } catch (testError) {
+        console.error("Connection test failed:", testError);
+        throw testError;
       }
 
       console.log("Getting global stats...");
