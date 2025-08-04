@@ -200,24 +200,45 @@ export default function DatabaseStatus() {
           >
             Refresh Status
           </Button>
-          <Button
-            onClick={testDatabaseOperations}
-            size="sm"
-            disabled={connectionStatus !== "connected" || testing}
-            className="flex-1"
-          >
-            {testing ? (
-              <>
-                <Loader2 className="h-3 w-3 mr-1 animate-spin" />
-                Testing...
-              </>
-            ) : (
-              <>
-                <Brain className="h-3 w-3 mr-1" />
-                Test Database
-              </>
-            )}
-          </Button>
+
+          {connectionStatus === "connected" ? (
+            <Button
+              onClick={testDatabaseOperations}
+              size="sm"
+              disabled={testing}
+              className="flex-1"
+            >
+              {testing ? (
+                <>
+                  <Loader2 className="h-3 w-3 mr-1 animate-spin" />
+                  Testing...
+                </>
+              ) : (
+                <>
+                  <Brain className="h-3 w-3 mr-1" />
+                  Test Database
+                </>
+              )}
+            </Button>
+          ) : error?.includes("⚠️") ? (
+            <Button
+              onClick={() => document.querySelector('[data-testid="supabase-url"]')?.scrollIntoView()}
+              variant="default"
+              size="sm"
+              className="flex-1"
+            >
+              Setup Credentials
+            </Button>
+          ) : (
+            <Button
+              variant="outline"
+              size="sm"
+              disabled
+              className="flex-1"
+            >
+              Not Connected
+            </Button>
+          )}
         </div>
 
         <div className="text-xs text-muted-foreground">
