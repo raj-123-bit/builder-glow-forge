@@ -39,6 +39,20 @@ export default function DatabaseStatus() {
 
       console.log("Supabase client:", supabase);
 
+      // Test basic client functionality
+      try {
+        console.log("Testing supabase.from method...");
+        const table = supabase.from("search_experiments");
+        console.log("Table object:", table);
+
+        console.log("Testing select method...");
+        const query = table.select("id");
+        console.log("Query object:", query);
+      } catch (clientError) {
+        logError("Supabase Client Test", clientError);
+        throw new Error(`Supabase client error: ${extractErrorMessage(clientError)}`);
+      }
+
       // First try a simple connection test
       try {
         console.log("Testing basic table access...");
