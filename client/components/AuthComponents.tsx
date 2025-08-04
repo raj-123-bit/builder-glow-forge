@@ -39,7 +39,7 @@ export function AuthModal({ onSuccess }: AuthFormProps) {
   } | null>(null);
   const [activeTab, setActiveTab] = useState("signin");
 
-  const { signIn, signUp, resetPassword } = useAuth();
+  const { signIn, signUp, signInWithGoogle, signInWithGitHub, resetPassword } = useAuth();
 
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
