@@ -235,7 +235,7 @@ export default function AIChatWidget() {
             provider: aiConfig.provider,
             endpoint: aiConfig.endpoint,
             messageLength: currentInput.length
-          });
+          }).catch(console.warn);
 
           aiResponse = `❌ AI service error: ${error instanceof Error ? error.message : "Unknown error"}\n\nFalling back to built-in responses:\n\n${generateFallbackResponse(currentInput)}`;
           responseSource = 'fallback-after-error';
