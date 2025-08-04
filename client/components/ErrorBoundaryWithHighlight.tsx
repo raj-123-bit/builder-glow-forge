@@ -54,7 +54,7 @@ class NASErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState>
       context,
       level,
       componentStack: errorInfo.componentStack
-    });
+    }).catch(console.warn);
 
     // Call custom error handler if provided
     if (onError) {
