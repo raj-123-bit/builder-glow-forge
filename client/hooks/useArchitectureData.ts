@@ -100,26 +100,26 @@ export function useExperiments() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    async function fetchExperiments() {
-      try {
-        setLoading(true);
-        const data = await NeuralArchSearchDB.getExperiments();
-        setExperiments(data || []);
-      } catch (err) {
-        setError(
-          err instanceof Error ? err.message : "Failed to fetch experiments",
-        );
-        console.error("Error fetching experiments:", err);
-      } finally {
-        setLoading(false);
-      }
+  const fetchExperiments = useCallback(async () => {
+    try {
+      setLoading(true);
+      const data = await NeuralArchSearchDB.getExperiments();
+      setExperiments(data || []);
+    } catch (err) {
+      setError(
+        err instanceof Error ? err.message : "Failed to fetch experiments",
+      );
+      console.error("Error fetching experiments:", err);
+    } finally {
+      setLoading(false);
     }
-
-    fetchExperiments();
   }, []);
 
-  return { experiments, loading, error, refetch: () => fetchExperiments() };
+  useEffect(() => {
+    fetchExperiments();
+  }, [fetchExperiments]);
+
+  return { experiments, loading, error, refetch: fetchExperiments };
 }
 
 export function useExperiment(id: string) {
