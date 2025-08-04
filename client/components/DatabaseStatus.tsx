@@ -129,6 +129,11 @@ export default function DatabaseStatus() {
           <div className="bg-destructive/10 border border-destructive/20 rounded-lg p-3">
             <div className="text-sm text-destructive font-medium mb-1">Connection Error</div>
             <div className="text-xs text-muted-foreground">{error}</div>
+            {error.includes("environment variables") && (
+              <div className="text-xs text-muted-foreground mt-2">
+                💡 Create a .env.local file with your Supabase credentials
+              </div>
+            )}
             {error.includes("relation") && (
               <div className="text-xs text-muted-foreground mt-2">
                 💡 Tip: Run the database setup script in Supabase SQL Editor
