@@ -3,40 +3,66 @@ import { createClient } from "@supabase/supabase-js";
 // Supabase configuration for Neural Architecture Search
 // Built by Shaurya Upadhyay
 
-const supabaseUrl =
-  import.meta.env.VITE_SUPABASE_URL || "";
-const supabaseAnonKey =
-  import.meta.env.VITE_SUPABASE_ANON_KEY || "";
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || "";
+const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || "";
 
 // Create Supabase client with error handling
 let supabase: any;
 
 try {
   if (!supabaseUrl || !supabaseAnonKey) {
-    console.warn('Supabase credentials not found. Database features will be disabled.');
-    console.warn('Please set VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY in your .env.local file');
+    console.warn(
+      "Supabase credentials not found. Database features will be disabled.",
+    );
+    console.warn(
+      "Please set VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY in your .env.local file",
+    );
 
     // Create a mock client for development
     supabase = {
       from: () => ({
-        select: () => Promise.resolve({ data: [], error: new Error('Supabase not configured') }),
-        insert: () => Promise.resolve({ data: null, error: new Error('Supabase not configured') }),
-        update: () => Promise.resolve({ data: null, error: new Error('Supabase not configured') }),
-        delete: () => Promise.resolve({ data: null, error: new Error('Supabase not configured') }),
-        eq: function() { return this; },
-        order: function() { return this; },
-        limit: function() { return this; },
-        single: function() { return this; }
+        select: () =>
+          Promise.resolve({
+            data: [],
+            error: new Error("Supabase not configured"),
+          }),
+        insert: () =>
+          Promise.resolve({
+            data: null,
+            error: new Error("Supabase not configured"),
+          }),
+        update: () =>
+          Promise.resolve({
+            data: null,
+            error: new Error("Supabase not configured"),
+          }),
+        delete: () =>
+          Promise.resolve({
+            data: null,
+            error: new Error("Supabase not configured"),
+          }),
+        eq: function () {
+          return this;
+        },
+        order: function () {
+          return this;
+        },
+        limit: function () {
+          return this;
+        },
+        single: function () {
+          return this;
+        },
       }),
       channel: () => ({
-        on: () => ({ subscribe: () => {} })
-      })
+        on: () => ({ subscribe: () => {} }),
+      }),
     };
   } else {
     supabase = createClient(supabaseUrl, supabaseAnonKey);
   }
 } catch (error) {
-  console.error('Failed to initialize Supabase client:', error);
+  console.error("Failed to initialize Supabase client:", error);
   supabase = null;
 }
 
@@ -154,7 +180,9 @@ export class NeuralArchSearchDB {
   // Search Experiments
   static async createExperiment(experiment: Partial<SearchExperiment>) {
     if (!supabase) {
-      throw new Error("Supabase client not initialized. Please check your configuration.");
+      throw new Error(
+        "Supabase client not initialized. Please check your configuration.",
+      );
     }
 
     const { data, error } = await supabase

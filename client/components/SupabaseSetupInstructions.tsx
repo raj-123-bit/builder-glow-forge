@@ -3,7 +3,14 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Copy, ExternalLink, Database, Key, Play, CheckCircle } from "lucide-react";
+import {
+  Copy,
+  ExternalLink,
+  Database,
+  Key,
+  Play,
+  CheckCircle,
+} from "lucide-react";
 
 export default function SupabaseSetupInstructions() {
   const [copiedStep, setCopiedStep] = useState<string | null>(null);
@@ -120,26 +127,49 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...`;
                 </h4>
                 <ol className="space-y-2 text-sm text-muted-foreground">
                   <li className="flex items-start gap-2">
-                    <Badge variant="outline" className="shrink-0">1</Badge>
-                    <span>Go to <a href="https://supabase.com" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">supabase.com</a> and sign in</span>
+                    <Badge variant="outline" className="shrink-0">
+                      1
+                    </Badge>
+                    <span>
+                      Go to{" "}
+                      <a
+                        href="https://supabase.com"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-primary hover:underline"
+                      >
+                        supabase.com
+                      </a>{" "}
+                      and sign in
+                    </span>
                   </li>
                   <li className="flex items-start gap-2">
-                    <Badge variant="outline" className="shrink-0">2</Badge>
+                    <Badge variant="outline" className="shrink-0">
+                      2
+                    </Badge>
                     <span>Create a new project or select existing one</span>
                   </li>
                   <li className="flex items-start gap-2">
-                    <Badge variant="outline" className="shrink-0">3</Badge>
+                    <Badge variant="outline" className="shrink-0">
+                      3
+                    </Badge>
                     <span>Go to Settings → API</span>
                   </li>
                   <li className="flex items-start gap-2">
-                    <Badge variant="outline" className="shrink-0">4</Badge>
+                    <Badge variant="outline" className="shrink-0">
+                      4
+                    </Badge>
                     <span>Copy the Project URL and anon/public key</span>
                   </li>
                 </ol>
               </div>
 
               <Button asChild variant="outline" className="w-full">
-                <a href="https://supabase.com/dashboard" target="_blank" rel="noopener noreferrer">
+                <a
+                  href="https://supabase.com/dashboard"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   <ExternalLink className="h-4 w-4 mr-2" />
                   Open Supabase Dashboard
                 </a>
@@ -153,7 +183,7 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...`;
               <p className="text-sm text-muted-foreground mb-3">
                 Copy this SQL script and run it in your Supabase SQL Editor:
               </p>
-              
+
               <div className="relative">
                 <pre className="bg-muted/50 rounded-lg p-4 text-xs overflow-x-auto max-h-64 border">
                   <code>{setupSQL}</code>
@@ -164,13 +194,21 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...`;
                   className="absolute top-2 right-2"
                   onClick={() => copyToClipboard(setupSQL, "sql")}
                 >
-                  {copiedStep === "sql" ? <CheckCircle className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
+                  {copiedStep === "sql" ? (
+                    <CheckCircle className="h-4 w-4" />
+                  ) : (
+                    <Copy className="h-4 w-4" />
+                  )}
                 </Button>
               </div>
 
               <div className="mt-3 flex gap-2">
                 <Button asChild variant="outline" size="sm">
-                  <a href="https://supabase.com/dashboard/project/_/sql" target="_blank" rel="noopener noreferrer">
+                  <a
+                    href="https://supabase.com/dashboard/project/_/sql"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
                     <Play className="h-4 w-4 mr-2" />
                     Open SQL Editor
                   </a>
@@ -181,11 +219,14 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...`;
 
           <TabsContent value="env" className="space-y-4">
             <div>
-              <h4 className="font-medium mb-2">Configure Environment Variables</h4>
+              <h4 className="font-medium mb-2">
+                Configure Environment Variables
+              </h4>
               <p className="text-sm text-muted-foreground mb-3">
-                Create a <code>.env.local</code> file with your Supabase credentials:
+                Create a <code>.env.local</code> file with your Supabase
+                credentials:
               </p>
-              
+
               <div className="relative">
                 <pre className="bg-muted/50 rounded-lg p-4 text-sm overflow-x-auto border">
                   <code>{envTemplate}</code>
@@ -196,14 +237,21 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...`;
                   className="absolute top-2 right-2"
                   onClick={() => copyToClipboard(envTemplate, "env")}
                 >
-                  {copiedStep === "env" ? <CheckCircle className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
+                  {copiedStep === "env" ? (
+                    <CheckCircle className="h-4 w-4" />
+                  ) : (
+                    <Copy className="h-4 w-4" />
+                  )}
                 </Button>
               </div>
 
               <div className="bg-yellow-50 dark:bg-yellow-950/20 border border-yellow-200 dark:border-yellow-800 rounded-lg p-3 mt-3">
-                <div className="text-sm font-medium text-yellow-800 dark:text-yellow-200">⚠️ Important</div>
+                <div className="text-sm font-medium text-yellow-800 dark:text-yellow-200">
+                  ⚠️ Important
+                </div>
                 <div className="text-xs text-yellow-700 dark:text-yellow-300 mt-1">
-                  Replace <code>your-project-id</code> and the API key with your actual Supabase values
+                  Replace <code>your-project-id</code> and the API key with your
+                  actual Supabase values
                 </div>
               </div>
             </div>
@@ -216,7 +264,9 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...`;
             Ready to Go!
           </div>
           <div className="text-xs text-green-700 dark:text-green-300 mt-1">
-            Once completed, your Neural Architecture Search app will have full database persistence for experiments, architectures, and Shaurya AI conversations.
+            Once completed, your Neural Architecture Search app will have full
+            database persistence for experiments, architectures, and Shaurya AI
+            conversations.
           </div>
         </div>
       </CardContent>
