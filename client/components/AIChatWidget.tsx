@@ -59,11 +59,21 @@ const initialMessages: Message[] = [
 // Safe hook to use auth when available
 function useSafeAuth() {
   try {
-    const { useAuth } = require("@/contexts/AuthContext");
-    return useAuth();
+    // Try to import and use the auth context
+    const AuthContext = React.createContext(null);
+    const context = React.useContext(AuthContext);
+
+    // If we're inside an AuthProvider, try to get the real context
+    try {
+      const { useAuth } = require("@/contexts/AuthContext");
+      return useAuth();
+    } catch (authError) {
+      // AuthContext not available, return safe defaults
+      return { user: null, loading: false, signOut: async () => ({}) };
+    }
   } catch (error) {
-    // AuthProvider not available, return default values
-    return { user: null, loading: false };
+    // Fallback to safe defaults
+    return { user: null, loading: false, signOut: async () => ({}) };
   }
 }
 
