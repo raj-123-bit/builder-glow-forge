@@ -285,6 +285,11 @@ export default function Index() {
               </CardContent>
             </Card>
 
+            {/* Quick Connection Test */}
+            <div className="mt-6">
+              <SimpleSupabaseTest />
+            </div>
+
             {/* Database Status */}
             <div className="mt-6">
               <DatabaseStatus />
