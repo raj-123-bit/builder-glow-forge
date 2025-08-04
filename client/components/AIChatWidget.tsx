@@ -72,6 +72,25 @@ export default function AIChatWidget() {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
+  // Try to get auth info when component mounts and AuthProvider is available
+  useEffect(() => {
+    try {
+      // Dynamically import and use auth when available
+      const tryGetAuth = async () => {
+        try {
+          const { useAuth } = await import("@/contexts/AuthContext");
+          // This will only work if we're inside an AuthProvider
+          // For now, we'll just keep it simple and not use auth in the chat widget
+        } catch (error) {
+          // AuthProvider not available yet, that's ok
+        }
+      };
+      tryGetAuth();
+    } catch (error) {
+      // Silent fail - auth not available
+    }
+  }, []);
+
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
