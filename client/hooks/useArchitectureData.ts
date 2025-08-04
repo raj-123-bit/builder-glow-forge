@@ -5,6 +5,7 @@ import {
   SearchExperiment,
   SearchProgress,
 } from "@/lib/supabase";
+import { extractErrorMessage, logError } from "@/lib/errorUtils";
 
 // Custom hooks for Neural Architecture Search data
 // Built by Shaurya Upadhyay
