@@ -1,4 +1,4 @@
-import React, { Component, ReactNode, useContext } from "react";
+import React, { Component, ReactNode, useContext, useState, useEffect } from "react";
 import { AuthContext } from "@/contexts/AuthContext";
 import AIChatWidget from "./AIChatWidget";
 
@@ -15,6 +15,7 @@ class AuthErrorBoundary extends Component<
   static getDerivedStateFromError(error: Error) {
     // Update state so the next render will show the fallback UI
     if (error.message.includes("useAuth must be used within an AuthProvider")) {
+      console.log("Auth error caught in boundary, using fallback widget");
       return { hasError: true };
     }
     return null;
@@ -37,18 +38,56 @@ class AuthErrorBoundary extends Component<
 
 // Safe auth-aware version of the chat widget
 function AuthEnabledChatWidget() {
-  // Use useContext directly to safely check if auth context is available
-  const authContext = useContext(AuthContext);
-  
-  // If auth context is not available, just render the basic widget
-  if (!authContext) {
-    console.log("Auth context not available, rendering basic chat widget");
+  const [authAvailable, setAuthAvailable] = useState<boolean | null>(null);
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    // Safely check if auth context is available
+    try {
+      const authContext = useContext(AuthContext);
+      if (authContext) {
+        setAuthAvailable(true);
+        setUser(authContext.user);
+      } else {
+        setAuthAvailable(false);
+      }
+    } catch (error) {
+      console.log("Auth context check failed:", error);
+      setAuthAvailable(false);
+    }
+  }, []);
+
+  // Show loading state while checking auth availability
+  if (authAvailable === null) {
     return <AIChatWidget />;
   }
 
-  const { user } = authContext;
+  // Auth context is available
+  if (authAvailable) {
+    return <AIChatWidget />;
+  }
 
-  // Pass user info to the chat widget via props or context
+  // Auth context not available, use fallback
+  return <AIChatWidget />;
+}
+
+// Hook-based approach for safer auth usage
+function useAuthSafely() {
+  try {
+    const authContext = useContext(AuthContext);
+    return authContext || null;
+  } catch (error) {
+    console.log("Auth context not available:", error);
+    return null;
+  }
+}
+
+// Alternative implementation using the safe hook
+function SafeAuthChatWidget() {
+  const authContext = useAuthSafely();
+  
+  // Just render the chat widget regardless of auth state
+  // The chat widget itself handles auth internally
   return <AIChatWidget />;
 }
 
@@ -56,7 +95,7 @@ function AuthEnabledChatWidget() {
 export default function AuthAwareAIChatWidget() {
   return (
     <AuthErrorBoundary fallback={<AIChatWidget />}>
-      <AuthEnabledChatWidget />
+      <SafeAuthChatWidget />
     </AuthErrorBoundary>
   );
 }
