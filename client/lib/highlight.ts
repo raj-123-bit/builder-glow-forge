@@ -9,7 +9,8 @@ export const initializeHighlight = async () => {
   
   try {
     // Dynamic import to handle potential export issues
-    const { H } = await import('@highlight-run/react');
+    const highlightModule = await import('@highlight-run/react');
+    const H = highlightModule.default || highlightModule.H;
     
     if (H && H.init) {
       H.init(HIGHLIGHT_PROJECT_ID, {
