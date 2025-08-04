@@ -3,16 +3,29 @@
 
 export const HIGHLIGHT_PROJECT_ID = import.meta.env.VITE_HIGHLIGHT_PROJECT_ID || 'demo-project';
 
+// Simple console-based fallback for debugging when Highlight.io is not available
+const consoleFallback = {
+  init: () => console.log('🔍 Debug mode active (console fallback)'),
+  identify: (id: string, data: any) => console.log('[Debug] User:', id, data),
+  track: (event: string, data: any) => console.log('[Debug] Track:', event, data),
+  consumeError: (error: Error, category: string, data: any) => console.error('[Debug] Error:', category, error, data)
+};
+
 // Initialize Highlight.io with proper error handling
 export const initializeHighlight = async () => {
-  if (typeof window === 'undefined') return;
+  if (typeof window === 'undefined') return consoleFallback;
   
   try {
-    // Dynamic import to handle potential export issues
+    // Try to import and initialize Highlight.io
     const highlightModule = await import('@highlight-run/react');
-    const H = highlightModule.default || highlightModule.H;
     
-    if (H && H.init) {
+    // Check various possible export names
+    const H = highlightModule.H || 
+              highlightModule.default?.H || 
+              highlightModule.default ||
+              consoleFallback;
+    
+    if (H && typeof H.init === 'function') {
       H.init(HIGHLIGHT_PROJECT_ID, {
         serviceName: 'neuralarchsearch-frontend',
         serviceVersion: '2.0.0',
@@ -34,7 +47,7 @@ export const initializeHighlight = async () => {
           features: ['nas', 'ai-chat', 'supabase', 'vercel'],
           version: '2.0.0'
         },
-        beforeSend: (event) => {
+        beforeSend: (event: any) => {
           if (event.message?.includes('ResizeObserver loop limit exceeded')) {
             return false;
           }
@@ -46,19 +59,24 @@ export const initializeHighlight = async () => {
       });
 
       // Set user context for debugging
-      H.identify('shaurya-user', {
-        name: 'Shaurya Upadhyay',
-        email: 'shaurya@neuralarchsearch.com',
-        role: 'developer',
-        app_version: '2.0.0'
-      });
+      if (typeof H.identify === 'function') {
+        H.identify('shaurya-user', {
+          name: 'Shaurya Upadhyay',
+          email: 'shaurya@neuralarchsearch.com',
+          role: 'developer',
+          app_version: '2.0.0'
+        });
+      }
 
       console.log('🔍 Highlight.io initialized for NeuralArchSearch debugging');
       return H;
+    } else {
+      console.warn('Highlight.io H object not found, using console fallback');
+      return consoleFallback;
     }
   } catch (error) {
-    console.warn('Highlight.io failed to initialize:', error);
-    return null;
+    console.warn('Highlight.io failed to initialize, using console fallback:', error);
+    return consoleFallback;
   }
 };
 
@@ -80,9 +98,17 @@ export const trackNASError = async (
 ) => {
   try {
     const H = await getHighlightInstance();
-    if (H && H.consumeError) {
+    if (H && typeof H.consumeError === 'function') {
       H.consumeError(error, 'nas-operation', {
         operation,
+        timestamp: new Date().toISOString(),
+        ...context
+      });
+    } else if (H) {
+      H.track?.('nas-error', {
+        operation,
+        error: error.message,
+        stack: error.stack,
         timestamp: new Date().toISOString(),
         ...context
       });
@@ -100,7 +126,7 @@ export const trackNASPerformance = async (
 ) => {
   try {
     const H = await getHighlightInstance();
-    if (H && H.track) {
+    if (H && typeof H.track === 'function') {
       H.track('nas-performance', {
         operation,
         duration_ms: duration,
@@ -121,7 +147,7 @@ export const trackArchitectureEvaluation = async (
 ) => {
   try {
     const H = await getHighlightInstance();
-    if (H && H.track) {
+    if (H && typeof H.track === 'function') {
       H.track('architecture-evaluation', {
         architecture_id: architecture.id || 'unknown',
         architecture_type: architecture.type || 'custom',
@@ -145,7 +171,7 @@ export const trackSearchAlgorithm = async (
 ) => {
   try {
     const H = await getHighlightInstance();
-    if (H && H.track) {
+    if (H && typeof H.track === 'function') {
       H.track('search-algorithm', {
         algorithm,
         evaluations: progress.evaluations || 0,
@@ -169,7 +195,7 @@ export const trackAIInteraction = async (
 ) => {
   try {
     const H = await getHighlightInstance();
-    if (H && H.track) {
+    if (H && typeof H.track === 'function') {
       H.track('ai-interaction', {
         message_length: message.length,
         response_length: response.length,
@@ -193,7 +219,7 @@ export const trackDatabaseOperation = async (
 ) => {
   try {
     const H = await getHighlightInstance();
-    if (H && H.track) {
+    if (H && typeof H.track === 'function') {
       H.track('database-operation', {
         operation,
         table,
@@ -216,7 +242,7 @@ export const debugLog = async (message: string, data?: any) => {
   
   try {
     const H = await getHighlightInstance();
-    if (H && H.track) {
+    if (H && typeof H.track === 'function') {
       H.track('debug-log', {
         message,
         data: JSON.stringify(data),
@@ -233,7 +259,7 @@ export const debugLog = async (message: string, data?: any) => {
 export const startNASSession = async (experimentId?: string) => {
   try {
     const H = await getHighlightInstance();
-    if (H && H.track) {
+    if (H && typeof H.track === 'function') {
       H.track('nas-session-start', {
         experiment_id: experimentId,
         timestamp: new Date().toISOString()
@@ -247,7 +273,7 @@ export const startNASSession = async (experimentId?: string) => {
 export const endNASSession = async (experimentId?: string, results?: any) => {
   try {
     const H = await getHighlightInstance();
-    if (H && H.track) {
+    if (H && typeof H.track === 'function') {
       H.track('nas-session-end', {
         experiment_id: experimentId,
         results: JSON.stringify(results),
