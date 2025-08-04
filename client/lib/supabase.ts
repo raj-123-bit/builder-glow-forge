@@ -153,6 +153,10 @@ export interface AiConversation {
 export class NeuralArchSearchDB {
   // Search Experiments
   static async createExperiment(experiment: Partial<SearchExperiment>) {
+    if (!supabase) {
+      throw new Error("Supabase client not initialized. Please check your configuration.");
+    }
+
     const { data, error } = await supabase
       .from("search_experiments")
       .insert([
