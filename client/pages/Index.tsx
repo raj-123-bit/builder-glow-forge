@@ -33,6 +33,7 @@ import {
 } from "lucide-react";
 import DatabaseStatus from "@/components/DatabaseStatus";
 import SupabaseSetupInstructions from "@/components/SupabaseSetupInstructions";
+import SimpleSupabaseTest from "@/components/SimpleSupabaseTest";
 
 interface Architecture {
   id: string;
