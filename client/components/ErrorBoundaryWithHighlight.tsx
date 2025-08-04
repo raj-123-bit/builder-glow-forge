@@ -1,8 +1,8 @@
-import React, { Component, ReactNode } from 'react';
-import { trackNASError, debugLog } from '@/lib/highlight';
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { Button } from '@/components/ui/button';
-import { RefreshCw, Bug, MessageCircle } from 'lucide-react';
+import React, { Component, ReactNode } from "react";
+import { trackNASError, debugLog } from "@/lib/highlight";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { Button } from "@/components/ui/button";
+import { RefreshCw, Bug, MessageCircle } from "lucide-react";
 
 interface ErrorBoundaryState {
   hasError: boolean;
@@ -16,11 +16,14 @@ interface ErrorBoundaryProps {
   fallback?: ReactNode;
   onError?: (error: Error, errorInfo: any) => void;
   resetOnPropsChange?: boolean;
-  level?: 'page' | 'component' | 'widget';
+  level?: "page" | "component" | "widget";
   context?: string;
 }
 
-class NASErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
+class NASErrorBoundary extends Component<
+  ErrorBoundaryProps,
+  ErrorBoundaryState
+> {
   constructor(props: ErrorBoundaryProps) {
     super(props);
     this.state = { hasError: false };
@@ -30,13 +33,13 @@ class NASErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState>
     return {
       hasError: true,
       error,
-      errorId: `nas_error_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`
+      errorId: `nas_error_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
     };
   }
 
   componentDidCatch(error: Error, errorInfo: any) {
-    const { onError, context = 'unknown', level = 'component' } = this.props;
-    
+    const { onError, context = "unknown", level = "component" } = this.props;
+
     // Track error with Highlight.io
     trackNASError(`${level}-error`, error, {
       context,
@@ -44,16 +47,16 @@ class NASErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState>
       errorInfo: errorInfo.componentStack,
       timestamp: new Date().toISOString(),
       userAgent: navigator.userAgent,
-      url: window.location.href
+      url: window.location.href,
     }).catch(console.warn);
 
     // Debug logging
-    debugLog('Error Boundary Caught Error', {
+    debugLog("Error Boundary Caught Error", {
       error: error.message,
       stack: error.stack,
       context,
       level,
-      componentStack: errorInfo.componentStack
+      componentStack: errorInfo.componentStack,
     }).catch(console.warn);
 
     // Call custom error handler if provided
@@ -64,19 +67,23 @@ class NASErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState>
     this.setState({
       error,
       errorInfo,
-      errorId: `nas_error_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`
+      errorId: `nas_error_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
     });
   }
 
   handleReset = () => {
-    debugLog('Error Boundary Reset', { context: this.props.context }).catch(console.warn);
+    debugLog("Error Boundary Reset", { context: this.props.context }).catch(
+      console.warn,
+    );
     this.setState({ hasError: false, error: undefined, errorInfo: undefined });
   };
 
   handleReportBug = () => {
     const { error, errorId } = this.state;
-    debugLog('Bug Report Initiated', { errorId, error: error?.message }).catch(console.warn);
-    
+    debugLog("Bug Report Initiated", { errorId, error: error?.message }).catch(
+      console.warn,
+    );
+
     // In a real app, this would open a bug report form
     // For now, we'll just copy error details to clipboard
     const errorDetails = `
@@ -90,13 +97,13 @@ Stack: ${error?.stack}
     `.trim();
 
     navigator.clipboard.writeText(errorDetails).then(() => {
-      alert('Error details copied to clipboard. Please share with support.');
+      alert("Error details copied to clipboard. Please share with support.");
     });
   };
 
   render() {
     if (this.state.hasError) {
-      const { fallback, level = 'component', context = 'unknown' } = this.props;
+      const { fallback, level = "component", context = "unknown" } = this.props;
       const { error, errorId } = this.state;
 
       if (fallback) {
@@ -104,7 +111,7 @@ Stack: ${error?.stack}
       }
 
       // Different error UIs based on level
-      if (level === 'page') {
+      if (level === "page") {
         return (
           <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-50 to-blue-50">
             <div className="max-w-md w-full mx-4">
@@ -120,11 +127,16 @@ Stack: ${error?.stack}
 
               <Alert className="mb-6 border-red-200 bg-red-50">
                 <Bug className="h-4 w-4 text-red-600" />
-                <AlertTitle className="text-red-800">Application Error</AlertTitle>
+                <AlertTitle className="text-red-800">
+                  Application Error
+                </AlertTitle>
                 <AlertDescription className="text-red-700">
-                  <strong>Error ID:</strong> {errorId}<br />
-                  <strong>Context:</strong> {context}<br />
-                  <strong>Message:</strong> {error?.message || 'Unknown error occurred'}
+                  <strong>Error ID:</strong> {errorId}
+                  <br />
+                  <strong>Context:</strong> {context}
+                  <br />
+                  <strong>Message:</strong>{" "}
+                  {error?.message || "Unknown error occurred"}
                 </AlertDescription>
               </Alert>
 
@@ -133,13 +145,17 @@ Stack: ${error?.stack}
                   <RefreshCw className="mr-2 h-4 w-4" />
                   Try Again
                 </Button>
-                <Button onClick={this.handleReportBug} variant="outline" className="w-full">
+                <Button
+                  onClick={this.handleReportBug}
+                  variant="outline"
+                  className="w-full"
+                >
                   <MessageCircle className="mr-2 h-4 w-4" />
                   Report Bug
                 </Button>
-                <Button 
-                  onClick={() => window.location.href = '/'} 
-                  variant="ghost" 
+                <Button
+                  onClick={() => (window.location.href = "/")}
+                  variant="ghost"
                   className="w-full"
                 >
                   Return to Homepage
@@ -150,7 +166,7 @@ Stack: ${error?.stack}
         );
       }
 
-      if (level === 'widget') {
+      if (level === "widget") {
         return (
           <div className="p-4 border border-red-200 rounded-lg bg-red-50">
             <div className="flex items-start space-x-3">
@@ -158,10 +174,14 @@ Stack: ${error?.stack}
               <div className="flex-1 min-w-0">
                 <p className="text-sm font-medium text-red-800">Widget Error</p>
                 <p className="text-sm text-red-600 mt-1">
-                  {error?.message || 'This component failed to load'}
+                  {error?.message || "This component failed to load"}
                 </p>
                 <div className="mt-2 space-x-2">
-                  <Button onClick={this.handleReset} size="sm" variant="outline">
+                  <Button
+                    onClick={this.handleReset}
+                    size="sm"
+                    variant="outline"
+                  >
                     <RefreshCw className="h-3 w-3 mr-1" />
                     Retry
                   </Button>
@@ -179,14 +199,22 @@ Stack: ${error?.stack}
           <AlertTitle className="text-amber-800">Component Error</AlertTitle>
           <AlertDescription className="text-amber-700">
             <div className="space-y-2">
-              <p><strong>Error:</strong> {error?.message || 'Unknown error'}</p>
-              <p><strong>Context:</strong> {context}</p>
+              <p>
+                <strong>Error:</strong> {error?.message || "Unknown error"}
+              </p>
+              <p>
+                <strong>Context:</strong> {context}
+              </p>
               <div className="flex space-x-2 mt-3">
                 <Button onClick={this.handleReset} size="sm" variant="outline">
                   <RefreshCw className="h-3 w-3 mr-1" />
                   Reset
                 </Button>
-                <Button onClick={this.handleReportBug} size="sm" variant="ghost">
+                <Button
+                  onClick={this.handleReportBug}
+                  size="sm"
+                  variant="ghost"
+                >
                   Report
                 </Button>
               </div>
@@ -203,7 +231,7 @@ Stack: ${error?.stack}
 // HOC for easy wrapping of components
 export function withErrorBoundary<P extends object>(
   Component: React.ComponentType<P>,
-  errorBoundaryProps?: Omit<ErrorBoundaryProps, 'children'>
+  errorBoundaryProps?: Omit<ErrorBoundaryProps, "children">,
 ) {
   const WrappedComponent = (props: P) => (
     <NASErrorBoundary {...errorBoundaryProps}>
@@ -216,29 +244,49 @@ export function withErrorBoundary<P extends object>(
 }
 
 // Main Error Boundary component with Highlight.io integration
-export function ErrorBoundaryWithHighlight({ children, ...props }: ErrorBoundaryProps) {
-  return (
-    <NASErrorBoundary {...props}>
-      {children}
-    </NASErrorBoundary>
-  );
+export function ErrorBoundaryWithHighlight({
+  children,
+  ...props
+}: ErrorBoundaryProps) {
+  return <NASErrorBoundary {...props}>{children}</NASErrorBoundary>;
 }
 
 // Specialized error boundaries for different parts of the app
-export const PageErrorBoundary = ({ children, context }: { children: ReactNode; context?: string }) => (
-  <ErrorBoundaryWithHighlight level="page" context={context || 'page'}>
+export const PageErrorBoundary = ({
+  children,
+  context,
+}: {
+  children: ReactNode;
+  context?: string;
+}) => (
+  <ErrorBoundaryWithHighlight level="page" context={context || "page"}>
     {children}
   </ErrorBoundaryWithHighlight>
 );
 
-export const ComponentErrorBoundary = ({ children, context }: { children: ReactNode; context?: string }) => (
-  <ErrorBoundaryWithHighlight level="component" context={context || 'component'}>
+export const ComponentErrorBoundary = ({
+  children,
+  context,
+}: {
+  children: ReactNode;
+  context?: string;
+}) => (
+  <ErrorBoundaryWithHighlight
+    level="component"
+    context={context || "component"}
+  >
     {children}
   </ErrorBoundaryWithHighlight>
 );
 
-export const WidgetErrorBoundary = ({ children, context }: { children: ReactNode; context?: string }) => (
-  <ErrorBoundaryWithHighlight level="widget" context={context || 'widget'}>
+export const WidgetErrorBoundary = ({
+  children,
+  context,
+}: {
+  children: ReactNode;
+  context?: string;
+}) => (
+  <ErrorBoundaryWithHighlight level="widget" context={context || "widget"}>
     {children}
   </ErrorBoundaryWithHighlight>
 );

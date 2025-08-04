@@ -1,30 +1,30 @@
-import React, { useState, useEffect } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { 
-  Bug, 
-  Activity, 
-  Database, 
-  Zap, 
-  Monitor, 
+import React, { useState, useEffect } from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import {
+  Bug,
+  Activity,
+  Database,
+  Zap,
+  Monitor,
   AlertTriangle,
   CheckCircle,
   Clock,
   BarChart3,
   Settings,
-  RefreshCw
-} from 'lucide-react';
-import { cn } from '@/lib/utils';
-import { usePerformanceDashboard } from '@/hooks/useNASPerformanceMonitoring';
-import { debugLog } from '@/lib/highlight';
+  RefreshCw,
+} from "lucide-react";
+import { cn } from "@/lib/utils";
+import { usePerformanceDashboard } from "@/hooks/useNASPerformanceMonitoring";
+import { debugLog } from "@/lib/highlight";
 
 interface DebugLog {
   id: string;
   timestamp: string;
-  level: 'info' | 'warn' | 'error' | 'debug';
+  level: "info" | "warn" | "error" | "debug";
   message: string;
   data?: any;
 }
@@ -33,24 +33,56 @@ interface PerformanceMetric {
   name: string;
   value: number;
   unit: string;
-  status: 'good' | 'warning' | 'critical';
-  trend?: 'up' | 'down' | 'stable';
+  status: "good" | "warning" | "critical";
+  trend?: "up" | "down" | "stable";
 }
 
 const DebugDashboard: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [activeTab, setActiveTab] = useState('overview');
+  const [activeTab, setActiveTab] = useState("overview");
   const [debugLogs, setDebugLogs] = useState<DebugLog[]>([]);
   const [isRecording, setIsRecording] = useState(true);
   const { getPerformanceSnapshot } = usePerformanceDashboard();
 
   // Mock performance metrics - in real app, these would come from monitoring
-  const [performanceMetrics, setPerformanceMetrics] = useState<PerformanceMetric[]>([
-    { name: 'Response Time', value: 245, unit: 'ms', status: 'good', trend: 'down' },
-    { name: 'Memory Usage', value: 67, unit: 'MB', status: 'warning', trend: 'up' },
-    { name: 'API Calls', value: 42, unit: 'req/min', status: 'good', trend: 'stable' },
-    { name: 'Error Rate', value: 0.5, unit: '%', status: 'good', trend: 'down' },
-    { name: 'NAS Operations', value: 15, unit: 'ops/hr', status: 'good', trend: 'up' }
+  const [performanceMetrics, setPerformanceMetrics] = useState<
+    PerformanceMetric[]
+  >([
+    {
+      name: "Response Time",
+      value: 245,
+      unit: "ms",
+      status: "good",
+      trend: "down",
+    },
+    {
+      name: "Memory Usage",
+      value: 67,
+      unit: "MB",
+      status: "warning",
+      trend: "up",
+    },
+    {
+      name: "API Calls",
+      value: 42,
+      unit: "req/min",
+      status: "good",
+      trend: "stable",
+    },
+    {
+      name: "Error Rate",
+      value: 0.5,
+      unit: "%",
+      status: "good",
+      trend: "down",
+    },
+    {
+      name: "NAS Operations",
+      value: 15,
+      unit: "ops/hr",
+      status: "good",
+      trend: "up",
+    },
   ]);
 
   // Simulate real-time debug logs
@@ -62,23 +94,23 @@ const DebugDashboard: React.FC = () => {
         {
           id: `log_${Date.now()}`,
           timestamp: new Date().toISOString(),
-          level: 'info',
-          message: 'Architecture evaluation completed',
-          data: { accuracy: 0.89, latency: 23.5 }
+          level: "info",
+          message: "Architecture evaluation completed",
+          data: { accuracy: 0.89, latency: 23.5 },
         },
         {
           id: `log_${Date.now() + 1}`,
           timestamp: new Date().toISOString(),
-          level: 'debug',
-          message: 'Search algorithm iteration #42',
-          data: { convergence: 0.75, best_score: 0.91 }
-        }
+          level: "debug",
+          message: "Search algorithm iteration #42",
+          data: { convergence: 0.75, best_score: 0.91 },
+        },
       ];
 
       // Randomly add a log
       if (Math.random() > 0.7) {
         const randomLog = mockLogs[Math.floor(Math.random() * mockLogs.length)];
-        setDebugLogs(prev => [randomLog, ...prev.slice(0, 99)]);
+        setDebugLogs((prev) => [randomLog, ...prev.slice(0, 99)]);
       }
     }, 3000);
 
@@ -87,36 +119,44 @@ const DebugDashboard: React.FC = () => {
 
   const handleClearLogs = () => {
     setDebugLogs([]);
-    debugLog('Debug logs cleared');
+    debugLog("Debug logs cleared");
   };
 
   const handleExportLogs = () => {
     const logsJson = JSON.stringify(debugLogs, null, 2);
-    const blob = new Blob([logsJson], { type: 'application/json' });
+    const blob = new Blob([logsJson], { type: "application/json" });
     const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
+    const a = document.createElement("a");
     a.href = url;
-    a.download = `nas-debug-logs-${new Date().toISOString().split('T')[0]}.json`;
+    a.download = `nas-debug-logs-${new Date().toISOString().split("T")[0]}.json`;
     a.click();
     URL.revokeObjectURL(url);
-    debugLog('Debug logs exported');
+    debugLog("Debug logs exported");
   };
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'good': return 'text-green-600 bg-green-50 border-green-200';
-      case 'warning': return 'text-yellow-600 bg-yellow-50 border-yellow-200';
-      case 'critical': return 'text-red-600 bg-red-50 border-red-200';
-      default: return 'text-gray-600 bg-gray-50 border-gray-200';
+      case "good":
+        return "text-green-600 bg-green-50 border-green-200";
+      case "warning":
+        return "text-yellow-600 bg-yellow-50 border-yellow-200";
+      case "critical":
+        return "text-red-600 bg-red-50 border-red-200";
+      default:
+        return "text-gray-600 bg-gray-50 border-gray-200";
     }
   };
 
   const getTrendIcon = (trend?: string) => {
     switch (trend) {
-      case 'up': return '↗';
-      case 'down': return '↘';
-      case 'stable': return '→';
-      default: return '';
+      case "up":
+        return "↗";
+      case "down":
+        return "↘";
+      case "stable":
+        return "→";
+      default:
+        return "";
     }
   };
 
@@ -146,18 +186,23 @@ const DebugDashboard: React.FC = () => {
             </div>
             <div>
               <CardTitle className="text-sm">Debug Dashboard</CardTitle>
-              <p className="text-xs text-muted-foreground">Neural Architecture Search Monitoring</p>
+              <p className="text-xs text-muted-foreground">
+                Neural Architecture Search Monitoring
+              </p>
             </div>
           </div>
           <div className="flex items-center gap-1">
-            <Badge variant={isRecording ? "default" : "secondary"} className="text-xs">
+            <Badge
+              variant={isRecording ? "default" : "secondary"}
+              className="text-xs"
+            >
               {isRecording ? (
                 <>
                   <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse mr-1" />
                   Recording
                 </>
               ) : (
-                'Paused'
+                "Paused"
               )}
             </Badge>
             <Button
@@ -230,12 +275,16 @@ const DebugDashboard: React.FC = () => {
                   <div className="flex items-center gap-2 p-2 bg-muted/50 rounded">
                     <div className="w-2 h-2 bg-green-500 rounded-full" />
                     <span>Architecture evaluation completed</span>
-                    <span className="text-muted-foreground ml-auto">2m ago</span>
+                    <span className="text-muted-foreground ml-auto">
+                      2m ago
+                    </span>
                   </div>
                   <div className="flex items-center gap-2 p-2 bg-muted/50 rounded">
                     <div className="w-2 h-2 bg-blue-500 rounded-full" />
                     <span>Search algorithm started</span>
-                    <span className="text-muted-foreground ml-auto">5m ago</span>
+                    <span className="text-muted-foreground ml-auto">
+                      5m ago
+                    </span>
                   </div>
                 </div>
               </div>
@@ -251,10 +300,18 @@ const DebugDashboard: React.FC = () => {
                 </div>
                 <div className="space-y-2">
                   {performanceMetrics.map((metric) => (
-                    <div key={metric.name} className="flex items-center justify-between p-2 bg-muted/50 rounded text-xs">
+                    <div
+                      key={metric.name}
+                      className="flex items-center justify-between p-2 bg-muted/50 rounded text-xs"
+                    >
                       <span className="font-medium">{metric.name}</span>
                       <div className="flex items-center gap-2">
-                        <Badge className={cn("text-xs", getStatusColor(metric.status))}>
+                        <Badge
+                          className={cn(
+                            "text-xs",
+                            getStatusColor(metric.status),
+                          )}
+                        >
                           {metric.value} {metric.unit}
                         </Badge>
                         <span className="text-muted-foreground">
@@ -270,19 +327,21 @@ const DebugDashboard: React.FC = () => {
             <TabsContent value="logs" className="p-4">
               <div className="space-y-3">
                 <div className="flex items-center justify-between">
-                  <h4 className="text-sm font-medium">Debug Logs ({debugLogs.length})</h4>
+                  <h4 className="text-sm font-medium">
+                    Debug Logs ({debugLogs.length})
+                  </h4>
                   <div className="flex gap-1">
-                    <Button 
-                      size="sm" 
-                      variant="ghost" 
+                    <Button
+                      size="sm"
+                      variant="ghost"
                       className="h-6 text-xs px-2"
                       onClick={handleExportLogs}
                     >
                       Export
                     </Button>
-                    <Button 
-                      size="sm" 
-                      variant="ghost" 
+                    <Button
+                      size="sm"
+                      variant="ghost"
                       className="h-6 text-xs px-2"
                       onClick={handleClearLogs}
                     >
@@ -298,10 +357,17 @@ const DebugDashboard: React.FC = () => {
                       </p>
                     ) : (
                       debugLogs.map((log) => (
-                        <div key={log.id} className="p-2 bg-muted/50 rounded text-xs">
+                        <div
+                          key={log.id}
+                          className="p-2 bg-muted/50 rounded text-xs"
+                        >
                           <div className="flex items-center gap-2 mb-1">
-                            <Badge 
-                              variant={log.level === 'error' ? 'destructive' : 'secondary'}
+                            <Badge
+                              variant={
+                                log.level === "error"
+                                  ? "destructive"
+                                  : "secondary"
+                              }
                               className="text-xs"
                             >
                               {log.level}
@@ -336,27 +402,42 @@ const DebugDashboard: React.FC = () => {
                       className="h-6 text-xs px-2"
                       onClick={() => setIsRecording(!isRecording)}
                     >
-                      {isRecording ? 'Stop' : 'Start'}
+                      {isRecording ? "Stop" : "Start"}
                     </Button>
                   </div>
                   <div className="flex items-center justify-between">
                     <span className="text-xs">Auto-export logs</span>
-                    <Button size="sm" variant="outline" className="h-6 text-xs px-2">
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      className="h-6 text-xs px-2"
+                    >
                       Enable
                     </Button>
                   </div>
                   <div className="flex items-center justify-between">
                     <span className="text-xs">Session replay</span>
-                    <Button size="sm" variant="default" className="h-6 text-xs px-2">
+                    <Button
+                      size="sm"
+                      variant="default"
+                      className="h-6 text-xs px-2"
+                    >
                       Active
                     </Button>
                   </div>
                 </div>
-                
+
                 <div className="pt-2 border-t text-xs text-muted-foreground">
-                  <p><strong>Built by:</strong> Shaurya Upadhyay</p>
-                  <p><strong>Debug Mode:</strong> Enhanced with Highlight.io + Netlify</p>
-                  <p><strong>Version:</strong> v2.0.0</p>
+                  <p>
+                    <strong>Built by:</strong> Shaurya Upadhyay
+                  </p>
+                  <p>
+                    <strong>Debug Mode:</strong> Enhanced with Highlight.io +
+                    Netlify
+                  </p>
+                  <p>
+                    <strong>Version:</strong> v2.0.0
+                  </p>
                 </div>
               </div>
             </TabsContent>

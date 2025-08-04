@@ -192,11 +192,11 @@ export default function AIChatWidget() {
     const startTime = performance.now();
     const messageId = Date.now().toString();
 
-    debugLog('AI Chat Message Sent', {
+    debugLog("AI Chat Message Sent", {
       messageId,
       messageLength: inputValue.length,
       provider: aiConfig.provider,
-      enabled: aiConfig.enabled
+      enabled: aiConfig.enabled,
     }).catch(console.warn);
 
     const userMessage: Message = {
@@ -213,7 +213,7 @@ export default function AIChatWidget() {
 
     try {
       let aiResponse: string;
-      let responseSource = 'fallback';
+      let responseSource = "fallback";
 
       if (aiConfig.enabled && aiConfig.endpoint) {
         try {
@@ -222,27 +222,32 @@ export default function AIChatWidget() {
           responseSource = aiConfig.provider;
 
           const aiDuration = performance.now() - aiStartTime;
-          trackAIInteraction(currentInput, aiResponse, aiConfig.model, aiDuration).catch(console.warn);
+          trackAIInteraction(
+            currentInput,
+            aiResponse,
+            aiConfig.model,
+            aiDuration,
+          ).catch(console.warn);
 
-          debugLog('Custom AI Response Success', {
+          debugLog("Custom AI Response Success", {
             duration: aiDuration,
             provider: aiConfig.provider,
-            responseLength: aiResponse.length
+            responseLength: aiResponse.length,
           }).catch(console.warn);
         } catch (error) {
           console.error("Custom AI failed:", error);
-          trackNASError('ai-chat-custom-failure', error as Error, {
+          trackNASError("ai-chat-custom-failure", error as Error, {
             provider: aiConfig.provider,
             endpoint: aiConfig.endpoint,
-            messageLength: currentInput.length
+            messageLength: currentInput.length,
           }).catch(console.warn);
 
           aiResponse = `❌ AI service error: ${error instanceof Error ? error.message : "Unknown error"}\n\nFalling back to built-in responses:\n\n${generateFallbackResponse(currentInput)}`;
-          responseSource = 'fallback-after-error';
+          responseSource = "fallback-after-error";
         }
       } else {
         aiResponse = generateFallbackResponse(currentInput);
-        responseSource = 'built-in-fallback';
+        responseSource = "built-in-fallback";
       }
 
       // Simulate typing delay for better UX
@@ -261,22 +266,26 @@ export default function AIChatWidget() {
       setMessages((prev) => [...prev, aiMessage]);
 
       // Track overall interaction performance
-      trackAIInteraction(currentInput, aiResponse, responseSource, totalDuration).catch(console.warn);
+      trackAIInteraction(
+        currentInput,
+        aiResponse,
+        responseSource,
+        totalDuration,
+      ).catch(console.warn);
 
-      debugLog('AI Chat Interaction Complete', {
+      debugLog("AI Chat Interaction Complete", {
         messageId,
         totalDuration,
         responseSource,
-        success: true
+        success: true,
       }).catch(console.warn);
-
     } catch (error) {
       const totalDuration = performance.now() - startTime;
 
-      trackNASError('ai-chat-general-failure', error as Error, {
+      trackNASError("ai-chat-general-failure", error as Error, {
         messageId,
         duration: totalDuration,
-        provider: aiConfig.provider
+        provider: aiConfig.provider,
       }).catch(console.warn);
 
       const errorMessage: Message = {
@@ -287,10 +296,10 @@ export default function AIChatWidget() {
       };
       setMessages((prev) => [...prev, errorMessage]);
 
-      debugLog('AI Chat Interaction Failed', {
+      debugLog("AI Chat Interaction Failed", {
         messageId,
-        error: error instanceof Error ? error.message : 'Unknown error',
-        totalDuration
+        error: error instanceof Error ? error.message : "Unknown error",
+        totalDuration,
       }).catch(console.warn);
     } finally {
       setIsTyping(false);
