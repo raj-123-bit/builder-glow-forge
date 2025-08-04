@@ -15,24 +15,24 @@ export function useArchitectures(experimentId?: string) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    async function fetchArchitectures() {
-      try {
-        setLoading(true);
-        const data = await NeuralArchSearchDB.getArchitectures(experimentId);
-        setArchitectures(data || []);
-      } catch (err) {
-        logError("Fetch Architectures", err);
-        setError(extractErrorMessage(err));
-      } finally {
-        setLoading(false);
-      }
+  const fetchArchitectures = useCallback(async () => {
+    try {
+      setLoading(true);
+      const data = await NeuralArchSearchDB.getArchitectures(experimentId);
+      setArchitectures(data || []);
+    } catch (err) {
+      logError("Fetch Architectures", err);
+      setError(extractErrorMessage(err));
+    } finally {
+      setLoading(false);
     }
-
-    fetchArchitectures();
   }, [experimentId]);
 
-  return { architectures, loading, error, refetch: () => fetchArchitectures() };
+  useEffect(() => {
+    fetchArchitectures();
+  }, [fetchArchitectures]);
+
+  return { architectures, loading, error, refetch: fetchArchitectures };
 }
 
 export function useTopArchitectures(limit: number = 10) {
