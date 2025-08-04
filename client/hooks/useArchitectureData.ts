@@ -21,10 +21,20 @@ export function useArchitectures(experimentId?: string) {
         const data = await NeuralArchSearchDB.getArchitectures(experimentId);
         setArchitectures(data || []);
       } catch (err) {
-        setError(
-          err instanceof Error ? err.message : "Failed to fetch architectures",
-        );
         console.error("Error fetching architectures:", err);
+
+        let errorMessage = "Failed to fetch architectures";
+        if (err instanceof Error) {
+          errorMessage = err.message;
+        } else if (typeof err === 'object' && err !== null) {
+          if ('message' in err) {
+            errorMessage = (err as any).message;
+          } else if ('error' in err) {
+            errorMessage = (err as any).error;
+          }
+        }
+
+        setError(errorMessage);
       } finally {
         setLoading(false);
       }
