@@ -268,7 +268,7 @@ export default function AIChatWidget() {
         totalDuration,
         responseSource,
         success: true
-      });
+      }).catch(console.warn);
 
     } catch (error) {
       const totalDuration = performance.now() - startTime;
