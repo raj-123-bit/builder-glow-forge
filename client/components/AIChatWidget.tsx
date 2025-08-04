@@ -338,7 +338,7 @@ export default function AIChatWidget() {
   }
 
   return (
-    <>
+    <ComponentErrorBoundary context="ai-chat-widget">
       <div className="fixed bottom-6 right-6 z-50">
         <Card
           className={cn(
@@ -535,6 +535,6 @@ export default function AIChatWidget() {
         onConfigUpdate={handleConfigUpdate}
         currentConfig={aiConfig}
       />
-    </>
+    </ComponentErrorBoundary>
   );
 }
