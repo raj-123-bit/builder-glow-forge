@@ -18,6 +18,7 @@ import {
   Loader2,
   AlertCircle,
   CheckCircle,
+  Github,
 } from "lucide-react";
 
 // Authentication Components for Neural Architecture Search
