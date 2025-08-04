@@ -60,27 +60,8 @@ export default function DatabaseStatus() {
       setStats(globalStats);
       setConnectionStatus("connected");
     } catch (err) {
-      console.error("Database connection error:", err);
-
-      // Properly extract error message from different error types
-      let errorMessage = "Connection failed";
-      if (err instanceof Error) {
-        errorMessage = err.message;
-      } else if (typeof err === 'object' && err !== null) {
-        // Handle Supabase error objects
-        if ('message' in err) {
-          errorMessage = (err as any).message;
-        } else if ('error' in err) {
-          errorMessage = (err as any).error;
-        } else if ('details' in err) {
-          errorMessage = (err as any).details;
-        } else {
-          errorMessage = JSON.stringify(err);
-        }
-      } else if (typeof err === 'string') {
-        errorMessage = err;
-      }
-
+      logError("Database Connection", err);
+      const errorMessage = extractErrorMessage(err);
       setError(errorMessage);
       setConnectionStatus("error");
     }
