@@ -34,7 +34,9 @@ export default function DatabaseStatus() {
       // Check if Supabase is configured
       if (!hasUrl || !hasKey) {
         setConnectionStatus("error");
-        setError("⚠️ Supabase credentials not configured. Use the Quick Connection Test above to set up your database.");
+        setError(
+          "⚠️ Supabase credentials not configured. Use the Quick Connection Test above to set up your database.",
+        );
         return;
       }
 
@@ -42,7 +44,9 @@ export default function DatabaseStatus() {
 
       // Check if supabase client is properly initialized
       if (!supabase) {
-        throw new Error("Supabase client not initialized. Check your configuration.");
+        throw new Error(
+          "Supabase client not initialized. Check your configuration.",
+        );
       }
 
       try {
@@ -56,7 +60,9 @@ export default function DatabaseStatus() {
           if (healthError.code === "42P01") {
             // Table doesn't exist - need to run setup
             setConnectionStatus("error");
-            setError("✨ Connected to Supabase! Now run the database setup script in the SQL Editor.");
+            setError(
+              "✨ Connected to Supabase! Now run the database setup script in the SQL Editor.",
+            );
             return;
           } else {
             throw healthError;
@@ -168,24 +174,27 @@ export default function DatabaseStatus() {
         )}
 
         {error && (
-          <div className={`border rounded-lg p-3 ${
-            error.includes("✨")
-              ? "bg-blue-50 dark:bg-blue-950/20 border-blue-200 dark:border-blue-800"
-              : error.includes("⚠️")
-              ? "bg-yellow-50 dark:bg-yellow-950/20 border-yellow-200 dark:border-yellow-800"
-              : "bg-destructive/10 border-destructive/20"
-          }`}>
-            <div className={`text-sm font-medium mb-1 ${
-              error.includes("✨") || error.includes("⚠️")
-                ? "text-foreground"
-                : "text-destructive"
-            }`}>
+          <div
+            className={`border rounded-lg p-3 ${
+              error.includes("✨")
+                ? "bg-blue-50 dark:bg-blue-950/20 border-blue-200 dark:border-blue-800"
+                : error.includes("⚠️")
+                  ? "bg-yellow-50 dark:bg-yellow-950/20 border-yellow-200 dark:border-yellow-800"
+                  : "bg-destructive/10 border-destructive/20"
+            }`}
+          >
+            <div
+              className={`text-sm font-medium mb-1 ${
+                error.includes("✨") || error.includes("⚠️")
+                  ? "text-foreground"
+                  : "text-destructive"
+              }`}
+            >
               {error.includes("✨")
                 ? "Database Setup Needed"
                 : error.includes("⚠️")
-                ? "Configuration Required"
-                : "Connection Error"
-              }
+                  ? "Configuration Required"
+                  : "Connection Error"}
             </div>
             <div className="text-xs text-muted-foreground">{error}</div>
           </div>
@@ -222,7 +231,11 @@ export default function DatabaseStatus() {
             </Button>
           ) : error?.includes("⚠️") ? (
             <Button
-              onClick={() => document.querySelector('[data-testid="supabase-url"]')?.scrollIntoView()}
+              onClick={() =>
+                document
+                  .querySelector('[data-testid="supabase-url"]')
+                  ?.scrollIntoView()
+              }
               variant="default"
               size="sm"
               className="flex-1"
@@ -230,12 +243,7 @@ export default function DatabaseStatus() {
               Setup Credentials
             </Button>
           ) : (
-            <Button
-              variant="outline"
-              size="sm"
-              disabled
-              className="flex-1"
-            >
+            <Button variant="outline" size="sm" disabled className="flex-1">
               Not Connected
             </Button>
           )}

@@ -11,11 +11,17 @@ export default function SimpleSupabaseTest() {
   const [supabaseUrl, setSupabaseUrl] = useState("");
   const [supabaseKey, setSupabaseKey] = useState("");
   const [testing, setTesting] = useState(false);
-  const [result, setResult] = useState<{ success: boolean; message: string } | null>(null);
+  const [result, setResult] = useState<{
+    success: boolean;
+    message: string;
+  } | null>(null);
 
   const testConnection = async () => {
     if (!supabaseUrl || !supabaseKey) {
-      setResult({ success: false, message: "Please enter both URL and API key" });
+      setResult({
+        success: false,
+        message: "Please enter both URL and API key",
+      });
       return;
     }
 
@@ -25,9 +31,12 @@ export default function SimpleSupabaseTest() {
     try {
       // Create a test client with the provided credentials
       const testClient = createClient(supabaseUrl, supabaseKey);
-      
-      console.log("Testing connection with:", { url: supabaseUrl, key: supabaseKey.substring(0, 20) + "..." });
-      
+
+      console.log("Testing connection with:", {
+        url: supabaseUrl,
+        key: supabaseKey.substring(0, 20) + "...",
+      });
+
       // Try a simple query
       const { data, error } = await testClient
         .from("_supabase_migrations")
@@ -38,27 +47,28 @@ export default function SimpleSupabaseTest() {
 
       if (error) {
         if (error.code === "42P01") {
-          setResult({ 
-            success: true, 
-            message: "✅ Connection successful! Database is empty - you need to run the setup script." 
+          setResult({
+            success: true,
+            message:
+              "✅ Connection successful! Database is empty - you need to run the setup script.",
           });
         } else {
-          setResult({ 
-            success: false, 
-            message: `Connection failed: ${error.message}` 
+          setResult({
+            success: false,
+            message: `Connection failed: ${error.message}`,
           });
         }
       } else {
-        setResult({ 
-          success: true, 
-          message: "✅ Connection successful! Database is ready." 
+        setResult({
+          success: true,
+          message: "✅ Connection successful! Database is ready.",
         });
       }
     } catch (err) {
       console.error("Connection test error:", err);
-      setResult({ 
-        success: false, 
-        message: `Connection failed: ${err instanceof Error ? err.message : 'Unknown error'}` 
+      setResult({
+        success: false,
+        message: `Connection failed: ${err instanceof Error ? err.message : "Unknown error"}`,
       });
     } finally {
       setTesting(false);
@@ -78,7 +88,9 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=${supabaseKey}`;
 
     // Copy to clipboard
     navigator.clipboard.writeText(envContent);
-    alert("Environment variables copied to clipboard! Create a .env.local file and paste this content.");
+    alert(
+      "Environment variables copied to clipboard! Create a .env.local file and paste this content.",
+    );
   };
 
   return (
@@ -116,7 +128,7 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=${supabaseKey}`;
         </div>
 
         <div className="flex gap-2">
-          <Button 
+          <Button
             onClick={testConnection}
             disabled={testing || !supabaseUrl || !supabaseKey}
             className="flex-1"
@@ -130,7 +142,7 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=${supabaseKey}`;
               "Test Connection"
             )}
           </Button>
-          
+
           {result?.success && (
             <Button onClick={saveToEnv} variant="outline">
               Copy .env Config
@@ -139,20 +151,26 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=${supabaseKey}`;
         </div>
 
         {result && (
-          <div className={`p-3 rounded-lg border ${
-            result.success 
-              ? "bg-green-50 dark:bg-green-950/20 border-green-200 dark:border-green-800" 
-              : "bg-red-50 dark:bg-red-950/20 border-red-200 dark:border-red-800"
-          }`}>
+          <div
+            className={`p-3 rounded-lg border ${
+              result.success
+                ? "bg-green-50 dark:bg-green-950/20 border-green-200 dark:border-green-800"
+                : "bg-red-50 dark:bg-red-950/20 border-red-200 dark:border-red-800"
+            }`}
+          >
             <div className="flex items-center gap-2">
               {result.success ? (
                 <CheckCircle className="h-4 w-4 text-green-600" />
               ) : (
                 <XCircle className="h-4 w-4 text-red-600" />
               )}
-              <span className={`text-sm font-medium ${
-                result.success ? "text-green-800 dark:text-green-200" : "text-red-800 dark:text-red-200"
-              }`}>
+              <span
+                className={`text-sm font-medium ${
+                  result.success
+                    ? "text-green-800 dark:text-green-200"
+                    : "text-red-800 dark:text-red-200"
+                }`}
+              >
                 {result.message}
               </span>
             </div>
@@ -160,9 +178,21 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=${supabaseKey}`;
         )}
 
         <div className="bg-blue-50 dark:bg-blue-950/20 border border-blue-200 dark:border-blue-800 rounded-lg p-3">
-          <h4 className="font-medium mb-2 text-blue-800 dark:text-blue-200">📝 Quick Steps:</h4>
+          <h4 className="font-medium mb-2 text-blue-800 dark:text-blue-200">
+            📝 Quick Steps:
+          </h4>
           <ol className="text-xs text-blue-700 dark:text-blue-300 space-y-1">
-            <li>1. Go to <a href="https://supabase.com/dashboard" target="_blank" rel="noopener noreferrer" className="underline">supabase.com/dashboard</a></li>
+            <li>
+              1. Go to{" "}
+              <a
+                href="https://supabase.com/dashboard"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline"
+              >
+                supabase.com/dashboard
+              </a>
+            </li>
             <li>2. Create project → Settings → API</li>
             <li>3. Copy Project URL and anon key above</li>
             <li>4. Click "Test Connection"</li>
