@@ -1,5 +1,5 @@
-import React, { Component, ReactNode } from "react";
-import { useAuth } from "@/contexts/AuthContext";
+import React, { Component, ReactNode, useContext } from "react";
+import { AuthContext } from "@/contexts/AuthContext";
 import AIChatWidget from "./AIChatWidget";
 
 // Error boundary for auth-related components
@@ -35,9 +35,18 @@ class AuthErrorBoundary extends Component<
   }
 }
 
-// Auth-aware version of the chat widget
+// Safe auth-aware version of the chat widget
 function AuthEnabledChatWidget() {
-  const { user } = useAuth();
+  // Use useContext directly to safely check if auth context is available
+  const authContext = useContext(AuthContext);
+  
+  // If auth context is not available, just render the basic widget
+  if (!authContext) {
+    console.log("Auth context not available, rendering basic chat widget");
+    return <AIChatWidget />;
+  }
+
+  const { user } = authContext;
 
   // Pass user info to the chat widget via props or context
   return <AIChatWidget />;
