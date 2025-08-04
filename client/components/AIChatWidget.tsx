@@ -291,7 +291,7 @@ export default function AIChatWidget() {
         messageId,
         error: error instanceof Error ? error.message : 'Unknown error',
         totalDuration
-      });
+      }).catch(console.warn);
     } finally {
       setIsTyping(false);
     }
