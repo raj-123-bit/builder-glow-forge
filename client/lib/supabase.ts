@@ -328,24 +328,41 @@ export class NeuralArchSearchDB {
   }
 
   static async getGlobalStats() {
-    const [experimentsResult, architecturesResult, conversationsResult] =
-      await Promise.all([
-        supabase
-          .from("search_experiments")
-          .select("id", { count: "exact", head: true }),
-        supabase
-          .from("neural_architectures")
-          .select("id", { count: "exact", head: true }),
-        supabase
-          .from("ai_conversations")
-          .select("id", { count: "exact", head: true }),
-      ]);
+    if (!supabase) {
+      return {
+        total_experiments: 0,
+        total_architectures: 0,
+        total_ai_conversations: 0,
+      };
+    }
 
-    return {
-      total_experiments: experimentsResult.count || 0,
-      total_architectures: architecturesResult.count || 0,
-      total_ai_conversations: conversationsResult.count || 0,
-    };
+    try {
+      const [experimentsResult, architecturesResult, conversationsResult] =
+        await Promise.all([
+          supabase
+            .from("search_experiments")
+            .select("id", { count: "exact", head: true }),
+          supabase
+            .from("neural_architectures")
+            .select("id", { count: "exact", head: true }),
+          supabase
+            .from("ai_conversations")
+            .select("id", { count: "exact", head: true }),
+        ]);
+
+      return {
+        total_experiments: experimentsResult.count || 0,
+        total_architectures: architecturesResult.count || 0,
+        total_ai_conversations: conversationsResult.count || 0,
+      };
+    } catch (error) {
+      console.error("Error fetching global stats:", error);
+      return {
+        total_experiments: 0,
+        total_architectures: 0,
+        total_ai_conversations: 0,
+      };
+    }
   }
 }
 
