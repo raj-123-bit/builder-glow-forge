@@ -1,5 +1,10 @@
-import { useState, useEffect } from 'react';
-import { NeuralArchSearchDB, NeuralArchitecture, SearchExperiment, SearchProgress } from '@/lib/supabase';
+import { useState, useEffect } from "react";
+import {
+  NeuralArchSearchDB,
+  NeuralArchitecture,
+  SearchExperiment,
+  SearchProgress,
+} from "@/lib/supabase";
 
 // Custom hooks for Neural Architecture Search data
 // Built by Shaurya Upadhyay
@@ -16,8 +21,10 @@ export function useArchitectures(experimentId?: string) {
         const data = await NeuralArchSearchDB.getArchitectures(experimentId);
         setArchitectures(data || []);
       } catch (err) {
-        setError(err instanceof Error ? err.message : 'Failed to fetch architectures');
-        console.error('Error fetching architectures:', err);
+        setError(
+          err instanceof Error ? err.message : "Failed to fetch architectures",
+        );
+        console.error("Error fetching architectures:", err);
       } finally {
         setLoading(false);
       }
@@ -41,8 +48,12 @@ export function useTopArchitectures(limit: number = 10) {
         const data = await NeuralArchSearchDB.getTopArchitectures(limit);
         setArchitectures(data || []);
       } catch (err) {
-        setError(err instanceof Error ? err.message : 'Failed to fetch top architectures');
-        console.error('Error fetching top architectures:', err);
+        setError(
+          err instanceof Error
+            ? err.message
+            : "Failed to fetch top architectures",
+        );
+        console.error("Error fetching top architectures:", err);
       } finally {
         setLoading(false);
       }
@@ -55,21 +66,25 @@ export function useTopArchitectures(limit: number = 10) {
 }
 
 export function useArchitecture(id: string) {
-  const [architecture, setArchitecture] = useState<NeuralArchitecture | null>(null);
+  const [architecture, setArchitecture] = useState<NeuralArchitecture | null>(
+    null,
+  );
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     async function fetchArchitecture() {
       if (!id) return;
-      
+
       try {
         setLoading(true);
         const data = await NeuralArchSearchDB.getArchitecture(id);
         setArchitecture(data);
       } catch (err) {
-        setError(err instanceof Error ? err.message : 'Failed to fetch architecture');
-        console.error('Error fetching architecture:', err);
+        setError(
+          err instanceof Error ? err.message : "Failed to fetch architecture",
+        );
+        console.error("Error fetching architecture:", err);
       } finally {
         setLoading(false);
       }
@@ -93,8 +108,10 @@ export function useExperiments() {
         const data = await NeuralArchSearchDB.getExperiments();
         setExperiments(data || []);
       } catch (err) {
-        setError(err instanceof Error ? err.message : 'Failed to fetch experiments');
-        console.error('Error fetching experiments:', err);
+        setError(
+          err instanceof Error ? err.message : "Failed to fetch experiments",
+        );
+        console.error("Error fetching experiments:", err);
       } finally {
         setLoading(false);
       }
@@ -114,14 +131,16 @@ export function useExperiment(id: string) {
   useEffect(() => {
     async function fetchExperiment() {
       if (!id) return;
-      
+
       try {
         setLoading(true);
         const data = await NeuralArchSearchDB.getExperiment(id);
         setExperiment(data);
       } catch (err) {
-        setError(err instanceof Error ? err.message : 'Failed to fetch experiment');
-        console.error('Error fetching experiment:', err);
+        setError(
+          err instanceof Error ? err.message : "Failed to fetch experiment",
+        );
+        console.error("Error fetching experiment:", err);
       } finally {
         setLoading(false);
       }
@@ -141,14 +160,16 @@ export function useSearchProgress(experimentId: string) {
   useEffect(() => {
     async function fetchProgress() {
       if (!experimentId) return;
-      
+
       try {
         setLoading(true);
         const data = await NeuralArchSearchDB.getProgress(experimentId);
         setProgress(data || []);
       } catch (err) {
-        setError(err instanceof Error ? err.message : 'Failed to fetch progress');
-        console.error('Error fetching progress:', err);
+        setError(
+          err instanceof Error ? err.message : "Failed to fetch progress",
+        );
+        console.error("Error fetching progress:", err);
       } finally {
         setLoading(false);
       }
@@ -168,7 +189,7 @@ export function useGlobalStats() {
   }>({
     total_experiments: 0,
     total_architectures: 0,
-    total_ai_conversations: 0
+    total_ai_conversations: 0,
   });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -180,8 +201,8 @@ export function useGlobalStats() {
         const data = await NeuralArchSearchDB.getGlobalStats();
         setStats(data);
       } catch (err) {
-        setError(err instanceof Error ? err.message : 'Failed to fetch stats');
-        console.error('Error fetching stats:', err);
+        setError(err instanceof Error ? err.message : "Failed to fetch stats");
+        console.error("Error fetching stats:", err);
       } finally {
         setLoading(false);
       }
@@ -205,7 +226,8 @@ export function useCreateExperiment() {
       const data = await NeuralArchSearchDB.createExperiment(experiment);
       return data;
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'Failed to create experiment';
+      const errorMessage =
+        err instanceof Error ? err.message : "Failed to create experiment";
       setError(errorMessage);
       throw err;
     } finally {
@@ -221,14 +243,17 @@ export function useCreateArchitecture() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const createArchitecture = async (architecture: Partial<NeuralArchitecture>) => {
+  const createArchitecture = async (
+    architecture: Partial<NeuralArchitecture>,
+  ) => {
     try {
       setLoading(true);
       setError(null);
       const data = await NeuralArchSearchDB.createArchitecture(architecture);
       return data;
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'Failed to create architecture';
+      const errorMessage =
+        err instanceof Error ? err.message : "Failed to create architecture";
       setError(errorMessage);
       throw err;
     } finally {
@@ -251,7 +276,8 @@ export function useRecordProgress() {
       const data = await NeuralArchSearchDB.recordProgress(progress);
       return data;
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'Failed to record progress';
+      const errorMessage =
+        err instanceof Error ? err.message : "Failed to record progress";
       setError(errorMessage);
       throw err;
     } finally {
@@ -274,9 +300,10 @@ export function useSaveConversation() {
       const data = await NeuralArchSearchDB.saveConversation(conversation);
       return data;
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'Failed to save conversation';
+      const errorMessage =
+        err instanceof Error ? err.message : "Failed to save conversation";
       setError(errorMessage);
-      console.error('Error saving conversation:', err);
+      console.error("Error saving conversation:", err);
     } finally {
       setLoading(false);
     }
