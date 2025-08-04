@@ -19,7 +19,7 @@ import AuthAwareAIChatWidget from "./components/AuthAwareAIChatWidget";
 import DebugDashboard from "./components/DebugDashboard";
 
 // Initialize Highlight.io for debugging and monitoring
-initializeHighlight();
+initializeHighlight().catch(console.warn);
 
 const queryClient = new QueryClient();
 
