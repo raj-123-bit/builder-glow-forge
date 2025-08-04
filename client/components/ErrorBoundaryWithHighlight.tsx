@@ -1,5 +1,5 @@
 import React, { Component, ReactNode } from 'react';
-import { ErrorBoundary as HighlightErrorBoundary } from 'highlight.run';
+import { ErrorBoundary as HighlightErrorBoundary } from '@highlight-run/react';
 import { trackNASError, debugLog } from '@/lib/highlight';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
