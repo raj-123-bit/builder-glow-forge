@@ -277,7 +277,7 @@ export default function AIChatWidget() {
         messageId,
         duration: totalDuration,
         provider: aiConfig.provider
-      });
+      }).catch(console.warn);
 
       const errorMessage: Message = {
         id: (Date.now() + 1).toString(),
