@@ -191,9 +191,19 @@ export default function DatabaseStatus() {
                 💡 Create a .env.local file with your Supabase credentials
               </div>
             )}
-            {error.includes("relation") && (
+            {(error.includes("relation") || error.includes("tables not found") || error.includes("42P01")) && (
               <div className="text-xs text-muted-foreground mt-2">
                 💡 Tip: Run the database setup script in Supabase SQL Editor
+              </div>
+            )}
+            {error.includes("Invalid API key") && (
+              <div className="text-xs text-muted-foreground mt-2">
+                💡 Check your VITE_SUPABASE_ANON_KEY in .env.local
+              </div>
+            )}
+            {error.includes("Invalid JWT") && (
+              <div className="text-xs text-muted-foreground mt-2">
+                💡 Your Supabase API key may be incorrect or expired
               </div>
             )}
           </div>
