@@ -56,29 +56,9 @@ const initialMessages: Message[] = [
   },
 ];
 
-// Safe hook to use auth when available
-function useSafeAuth() {
-  try {
-    // Try to import and use the auth context
-    const AuthContext = React.createContext(null);
-    const context = React.useContext(AuthContext);
-
-    // If we're inside an AuthProvider, try to get the real context
-    try {
-      const { useAuth } = require("@/contexts/AuthContext");
-      return useAuth();
-    } catch (authError) {
-      // AuthContext not available, return safe defaults
-      return { user: null, loading: false, signOut: async () => ({}) };
-    }
-  } catch (error) {
-    // Fallback to safe defaults
-    return { user: null, loading: false, signOut: async () => ({}) };
-  }
-}
-
 export default function AIChatWidget() {
-  const { user } = useSafeAuth();
+  // Use useState to track user info locally for now
+  const [user, setUser] = useState<any>(null);
   const [isOpen, setIsOpen] = useState(false);
   const [isMinimized, setIsMinimized] = useState(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
