@@ -15,8 +15,9 @@
   "devCommand": "npm run dev",
   "installCommand": "npm install",
   "functions": {
-    "app/api/**/*.ts": {
-      "runtime": "@vercel/node"
+    "api/**/*.ts": {
+      "runtime": "@vercel/node",
+      "maxDuration": 30
     }
   },
   "rewrites": [
