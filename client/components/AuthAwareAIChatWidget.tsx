@@ -1,4 +1,10 @@
-import React, { Component, ReactNode, useContext, useState, useEffect } from "react";
+import React, {
+  Component,
+  ReactNode,
+  useContext,
+  useState,
+  useEffect,
+} from "react";
 import { AuthContext } from "@/contexts/AuthContext";
 import AIChatWidget from "./AIChatWidget";
 
@@ -85,7 +91,7 @@ function useAuthSafely() {
 // Alternative implementation using the safe hook
 function SafeAuthChatWidget() {
   const authContext = useAuthSafely();
-  
+
   // Just render the chat widget regardless of auth state
   // The chat widget itself handles auth internally
   return <AIChatWidget />;
