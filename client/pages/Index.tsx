@@ -34,6 +34,7 @@ import {
 import DatabaseStatus from "@/components/DatabaseStatus";
 import SupabaseSetupInstructions from "@/components/SupabaseSetupInstructions";
 import SimpleSupabaseTest from "@/components/SimpleSupabaseTest";
+import OAuthSetupGuide from "@/components/OAuthSetupGuide";
 import { AuthButton, AuthStatus } from "@/components/AuthComponents";
 
 interface Architecture {
