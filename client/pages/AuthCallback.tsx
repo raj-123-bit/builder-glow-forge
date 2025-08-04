@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { supabase } from '@/lib/supabase';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Loader2, CheckCircle, AlertCircle, Brain } from 'lucide-react';
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { supabase } from "@/lib/supabase";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Loader2, CheckCircle, AlertCircle, Brain } from "lucide-react";
 
 // OAuth Callback Handler for Neural Architecture Search
 // Built by Shaurya Upadhyay
@@ -20,7 +20,7 @@ export default function AuthCallback() {
       try {
         // Handle the OAuth callback
         const { data, error } = await supabase.auth.getSession();
-        
+
         if (error) {
           throw error;
         }
@@ -29,14 +29,16 @@ export default function AuthCallback() {
           setSuccess(true);
           // Redirect to home page after a short delay
           setTimeout(() => {
-            navigate('/', { replace: true });
+            navigate("/", { replace: true });
           }, 2000);
         } else {
-          throw new Error('No session found after OAuth callback');
+          throw new Error("No session found after OAuth callback");
         }
       } catch (error) {
-        console.error('Auth callback error:', error);
-        setError(error instanceof Error ? error.message : 'Authentication failed');
+        console.error("Auth callback error:", error);
+        setError(
+          error instanceof Error ? error.message : "Authentication failed",
+        );
       } finally {
         setLoading(false);
       }
@@ -44,9 +46,9 @@ export default function AuthCallback() {
 
     // Check URL for any error parameters first
     const urlParams = new URLSearchParams(window.location.search);
-    const urlError = urlParams.get('error');
-    const urlErrorDescription = urlParams.get('error_description');
-    
+    const urlError = urlParams.get("error");
+    const urlErrorDescription = urlParams.get("error_description");
+
     if (urlError) {
       setError(urlErrorDescription || urlError);
       setLoading(false);
@@ -87,14 +89,17 @@ export default function AuthCallback() {
             <div className="mx-auto mb-4 p-3 bg-green-100 rounded-full w-fit">
               <CheckCircle className="h-6 w-6 text-green-600" />
             </div>
-            <CardTitle className="text-green-800">Successfully Signed In!</CardTitle>
+            <CardTitle className="text-green-800">
+              Successfully Signed In!
+            </CardTitle>
           </CardHeader>
           <CardContent className="text-center">
             <p className="text-muted-foreground mb-4">
-              Welcome to Neural Architecture Search! You'll be redirected shortly.
+              Welcome to Neural Architecture Search! You'll be redirected
+              shortly.
             </p>
-            <Button 
-              onClick={() => navigate('/', { replace: true })}
+            <Button
+              onClick={() => navigate("/", { replace: true })}
               className="w-full"
             >
               Go to Dashboard
@@ -122,15 +127,15 @@ export default function AuthCallback() {
                 {error}
               </AlertDescription>
             </Alert>
-            
+
             <div className="space-y-2">
-              <Button 
-                onClick={() => navigate('/', { replace: true })}
+              <Button
+                onClick={() => navigate("/", { replace: true })}
                 className="w-full"
               >
                 Return to Home
               </Button>
-              <Button 
+              <Button
                 onClick={() => window.location.reload()}
                 variant="outline"
                 className="w-full"
@@ -138,7 +143,7 @@ export default function AuthCallback() {
                 Try Again
               </Button>
             </div>
-            
+
             <div className="mt-4 text-xs text-muted-foreground text-center">
               <p>Built by Shaurya Upadhyay</p>
               <p>Neural Architecture Search - Enhanced Authentication</p>

@@ -1,19 +1,19 @@
-import React, { useState } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { 
-  Github, 
-  ExternalLink, 
-  Copy, 
-  CheckCircle, 
+import React, { useState } from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import {
+  Github,
+  ExternalLink,
+  Copy,
+  CheckCircle,
   AlertCircle,
   Settings,
   Globe,
-  Key
-} from 'lucide-react';
+  Key,
+} from "lucide-react";
 
 // OAuth Setup Guide for Neural Architecture Search
 // Built by Shaurya Upadhyay
@@ -35,62 +35,70 @@ export default function OAuthSetupGuide() {
     {
       step: 1,
       title: "Go to Google Cloud Console",
-      content: "Visit console.cloud.google.com and create a new project or select an existing one."
+      content:
+        "Visit console.cloud.google.com and create a new project or select an existing one.",
     },
     {
       step: 2,
       title: "Enable Google+ API",
-      content: "Navigate to 'APIs & Services' > 'Library' and enable the Google+ API."
+      content:
+        "Navigate to 'APIs & Services' > 'Library' and enable the Google+ API.",
     },
     {
       step: 3,
       title: "Create OAuth Credentials",
-      content: "Go to 'APIs & Services' > 'Credentials' and create OAuth 2.0 Client IDs."
+      content:
+        "Go to 'APIs & Services' > 'Credentials' and create OAuth 2.0 Client IDs.",
     },
     {
       step: 4,
       title: "Configure Authorized Redirect URIs",
-      content: `Add the following redirect URI to your Google OAuth client:`
+      content: `Add the following redirect URI to your Google OAuth client:`,
     },
     {
       step: 5,
       title: "Add to Supabase",
-      content: "Copy the Client ID and Client Secret to your Supabase project settings under Authentication > Providers > Google."
-    }
+      content:
+        "Copy the Client ID and Client Secret to your Supabase project settings under Authentication > Providers > Google.",
+    },
   ];
 
   const githubSetupSteps = [
     {
       step: 1,
       title: "Go to GitHub Settings",
-      content: "Visit github.com/settings/developers and click 'New OAuth App'."
+      content:
+        "Visit github.com/settings/developers and click 'New OAuth App'.",
     },
     {
       step: 2,
       title: "Fill Application Details",
-      content: "Provide your application name, homepage URL, and authorization callback URL."
+      content:
+        "Provide your application name, homepage URL, and authorization callback URL.",
     },
     {
       step: 3,
       title: "Set Authorization Callback URL",
-      content: "Use the redirect URL provided below:"
+      content: "Use the redirect URL provided below:",
     },
     {
       step: 4,
       title: "Get Client Credentials",
-      content: "After creating the app, copy the Client ID and generate a Client Secret."
+      content:
+        "After creating the app, copy the Client ID and generate a Client Secret.",
     },
     {
       step: 5,
       title: "Configure in Supabase",
-      content: "Add the Client ID and Client Secret to your Supabase project under Authentication > Providers > GitHub."
-    }
+      content:
+        "Add the Client ID and Client Secret to your Supabase project under Authentication > Providers > GitHub.",
+    },
   ];
 
   if (!isOpen) {
     return (
       <div className="mb-4">
-        <Button 
+        <Button
           onClick={() => setIsOpen(true)}
           variant="outline"
           className="w-full"
@@ -112,14 +120,11 @@ export default function OAuthSetupGuide() {
               OAuth Provider Setup
             </CardTitle>
             <p className="text-sm text-muted-foreground mt-1">
-              Configure Google and GitHub authentication for your Neural Architecture Search app
+              Configure Google and GitHub authentication for your Neural
+              Architecture Search app
             </p>
           </div>
-          <Button 
-            onClick={() => setIsOpen(false)}
-            variant="ghost"
-            size="sm"
-          >
+          <Button onClick={() => setIsOpen(false)} variant="ghost" size="sm">
             ✕
           </Button>
         </div>
@@ -136,10 +141,10 @@ export default function OAuthSetupGuide() {
               <Button
                 size="sm"
                 variant="ghost"
-                onClick={() => copyToClipboard(redirectUrl, 'redirect')}
+                onClick={() => copyToClipboard(redirectUrl, "redirect")}
                 className="h-6 w-6 p-0"
               >
-                {copied === 'redirect' ? (
+                {copied === "redirect" ? (
                   <CheckCircle className="h-3 w-3 text-green-600" />
                 ) : (
                   <Copy className="h-3 w-3" />
@@ -184,7 +189,7 @@ export default function OAuthSetupGuide() {
                 <h3 className="font-semibold">Google OAuth Setup</h3>
                 <Badge variant="secondary">OAuth 2.0</Badge>
               </div>
-              
+
               {googleSetupSteps.map((step) => (
                 <div key={step.step} className="flex gap-3">
                   <div className="flex-shrink-0 w-6 h-6 bg-primary text-primary-foreground rounded-full flex items-center justify-center text-sm font-medium">
@@ -192,7 +197,9 @@ export default function OAuthSetupGuide() {
                   </div>
                   <div className="flex-1">
                     <h4 className="font-medium text-sm">{step.title}</h4>
-                    <p className="text-sm text-muted-foreground mt-1">{step.content}</p>
+                    <p className="text-sm text-muted-foreground mt-1">
+                      {step.content}
+                    </p>
                     {step.step === 4 && (
                       <div className="flex items-center gap-2 mt-2">
                         <code className="bg-muted px-2 py-1 rounded text-sm">
@@ -201,10 +208,12 @@ export default function OAuthSetupGuide() {
                         <Button
                           size="sm"
                           variant="ghost"
-                          onClick={() => copyToClipboard(redirectUrl, 'google-redirect')}
+                          onClick={() =>
+                            copyToClipboard(redirectUrl, "google-redirect")
+                          }
                           className="h-6 w-6 p-0"
                         >
-                          {copied === 'google-redirect' ? (
+                          {copied === "google-redirect" ? (
                             <CheckCircle className="h-3 w-3 text-green-600" />
                           ) : (
                             <Copy className="h-3 w-3" />
@@ -216,9 +225,11 @@ export default function OAuthSetupGuide() {
                 </div>
               ))}
 
-              <Button 
-                className="w-full mt-4" 
-                onClick={() => window.open('https://console.cloud.google.com', '_blank')}
+              <Button
+                className="w-full mt-4"
+                onClick={() =>
+                  window.open("https://console.cloud.google.com", "_blank")
+                }
               >
                 <ExternalLink className="h-4 w-4 mr-2" />
                 Open Google Cloud Console
@@ -232,7 +243,7 @@ export default function OAuthSetupGuide() {
                 <h3 className="font-semibold">GitHub OAuth Setup</h3>
                 <Badge variant="secondary">OAuth App</Badge>
               </div>
-              
+
               {githubSetupSteps.map((step) => (
                 <div key={step.step} className="flex gap-3">
                   <div className="flex-shrink-0 w-6 h-6 bg-primary text-primary-foreground rounded-full flex items-center justify-center text-sm font-medium">
@@ -240,7 +251,9 @@ export default function OAuthSetupGuide() {
                   </div>
                   <div className="flex-1">
                     <h4 className="font-medium text-sm">{step.title}</h4>
-                    <p className="text-sm text-muted-foreground mt-1">{step.content}</p>
+                    <p className="text-sm text-muted-foreground mt-1">
+                      {step.content}
+                    </p>
                     {step.step === 3 && (
                       <div className="flex items-center gap-2 mt-2">
                         <code className="bg-muted px-2 py-1 rounded text-sm">
@@ -249,10 +262,12 @@ export default function OAuthSetupGuide() {
                         <Button
                           size="sm"
                           variant="ghost"
-                          onClick={() => copyToClipboard(redirectUrl, 'github-redirect')}
+                          onClick={() =>
+                            copyToClipboard(redirectUrl, "github-redirect")
+                          }
                           className="h-6 w-6 p-0"
                         >
-                          {copied === 'github-redirect' ? (
+                          {copied === "github-redirect" ? (
                             <CheckCircle className="h-3 w-3 text-green-600" />
                           ) : (
                             <Copy className="h-3 w-3" />
@@ -264,9 +279,14 @@ export default function OAuthSetupGuide() {
                 </div>
               ))}
 
-              <Button 
-                className="w-full mt-4" 
-                onClick={() => window.open('https://github.com/settings/developers', '_blank')}
+              <Button
+                className="w-full mt-4"
+                onClick={() =>
+                  window.open(
+                    "https://github.com/settings/developers",
+                    "_blank",
+                  )
+                }
               >
                 <ExternalLink className="h-4 w-4 mr-2" />
                 Open GitHub Developer Settings
@@ -278,13 +298,17 @@ export default function OAuthSetupGuide() {
         <Alert className="mt-4 border-amber-200 bg-amber-50 dark:border-amber-800 dark:bg-amber-950/20">
           <AlertCircle className="h-4 w-4 text-amber-600" />
           <AlertDescription className="text-amber-800 dark:text-amber-200">
-            <strong>Important:</strong> After configuring OAuth providers in their respective platforms, 
-            make sure to enable them in your Supabase project dashboard under Authentication → Providers.
+            <strong>Important:</strong> After configuring OAuth providers in
+            their respective platforms, make sure to enable them in your
+            Supabase project dashboard under Authentication → Providers.
           </AlertDescription>
         </Alert>
 
         <div className="mt-4 text-xs text-muted-foreground text-center">
-          <p>Built by Shaurya Upadhyay - Neural Architecture Search with Enhanced Authentication</p>
+          <p>
+            Built by Shaurya Upadhyay - Neural Architecture Search with Enhanced
+            Authentication
+          </p>
         </div>
       </CardContent>
     </Card>
