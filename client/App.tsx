@@ -8,12 +8,17 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./contexts/AuthContext";
+import { initializeHighlight } from "./lib/highlight";
+import { PageErrorBoundary } from "./components/ErrorBoundaryWithHighlight";
 import Index from "./pages/Index";
 import ArchitectureDetails from "./pages/ArchitectureDetails";
 import Experiments from "./pages/Experiments";
 import Datasets from "./pages/Datasets";
 import NotFound from "./pages/NotFound";
 import AuthAwareAIChatWidget from "./components/AuthAwareAIChatWidget";
+
+// Initialize Highlight.io for debugging and monitoring
+initializeHighlight();
 
 const queryClient = new QueryClient();
 
